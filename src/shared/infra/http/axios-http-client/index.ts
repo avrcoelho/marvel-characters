@@ -12,7 +12,7 @@ class AxiosHttpClient {
     this.baseUrl = process.env.API_URL;
   }
 
-  protected get<Response>({
+  public get<Response>({
     url,
     params = null,
     headers = null,
