@@ -1,9 +1,14 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+const HeroHome = lazy(() => import('../../../modules/hero/pages/Home'));
 
 const Routes = (): JSX.Element => (
   <BrowserRouter>
     <Switch>
-      <Route path="/" exact component={() => <h1>Hello world</h1>} />
+      <Suspense fallback="carregando...">
+        <Route path="/" exact component={HeroHome} />
+      </Suspense>
     </Switch>
   </BrowserRouter>
 );
