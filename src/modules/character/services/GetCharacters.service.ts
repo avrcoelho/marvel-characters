@@ -2,7 +2,10 @@
 import * as crypto from 'crypto';
 
 import IHttpClientMOdel from '../../../shared/infra/http/axios-http-client/models/IHttpClient.model';
-import { CharacterDataContainerModel } from '../models/Character.model';
+import {
+  CharacterDataContainerModel,
+  CharacterDataWrapperModel,
+} from '../models/Character.model';
 
 class GetCharactersService {
   constructor(private readonly axiosHttpClient: IHttpClientMOdel) {}
@@ -11,12 +14,15 @@ class GetCharactersService {
     const ts = new Date().getTime();
     const apiKey = String(process.env.REACT_APP_API_PUBLIC_KEY);
     const privateApiKey = String(process.env.REACT_APP_API_PRIVATE_KEY);
-    const hash = crypto.createHash('md5').update(ts + privateApiKey + apiKey);
+    const hash = crypto
+      .createHash('md5')
+      .update(ts + privateApiKey + apiKey)
+      .digest('hex');
 
     try {
       const {
-        data,
-      } = await this.axiosHttpClient.get<CharacterDataContainerModel>({
+        data: { data },
+      } = await this.axiosHttpClient.get<CharacterDataWrapperModel>({
         url: '/characters',
         params: {
           ts,

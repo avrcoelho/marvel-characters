@@ -11,3 +11,7 @@ export interface CharacterDataContainerModel {
   count: number;
   results: CharacterModel[];
 }
+
+export interface CharacterDataWrapperModel {
+  data: CharacterDataContainerModel;
+}
