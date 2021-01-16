@@ -1,8 +1,9 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import { IApiGetDTO } from './dtos/IApi.dto';
+import IHttpClientMOdel from './models/IHttpClient.model';
 
-class AxiosHttpClient {
+class AxiosHttpClient implements IHttpClientMOdel {
   private baseUrl: string | undefined;
 
   private axiosInstance: AxiosInstance | any = null;
@@ -12,11 +13,11 @@ class AxiosHttpClient {
     this.baseUrl = process.env.API_URL;
   }
 
-  public get<Response>({
+  public get<TResponse>({
     url,
     params = null,
     headers = null,
-  }: IApiGetDTO): Promise<AxiosResponse<Response>> {
+  }: IApiGetDTO): Promise<AxiosResponse<TResponse>> {
     return this.axiosInstance({
       method: 'GET',
       url: `${this.baseUrl}${url}`,
