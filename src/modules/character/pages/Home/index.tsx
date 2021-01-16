@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 
 import { useCharacter } from '../../hooks/context/character';
@@ -8,7 +7,7 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     getCharacters();
-  }, []);
+  }, [getCharacters]);
 
   return <h1>Hero Home</h1>;
 };

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useCallback } from 'react';
 
 import { CharacterDataContainerModel } from '../../models/Character.model';
 import { getCharactersService } from '../../services';
@@ -18,13 +18,13 @@ export const CharacterProvider: React.FC = ({ children }) => {
     setCharacters,
   ] = useState<CharacterDataContainerModel | null>(null);
 
-  const getCharacters = async (search = ''): Promise<void> => {
+  const getCharacters = useCallback(async (search = ''): Promise<void> => {
     const response = await getCharactersService.execute(search);
 
     if (response) {
       setCharacters(response);
     }
-  };
+  }, []);
 
   return (
     <CharacterContext.Provider value={{ characters, getCharacters }}>
