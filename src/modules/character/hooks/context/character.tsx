@@ -12,7 +12,7 @@ const CharacterContext = createContext<CharacterContextData>(
   {} as CharacterContextData,
 );
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const CharacterProvider: React.FC = ({ children }) => {
   const [
     characters,
     setCharacters,
