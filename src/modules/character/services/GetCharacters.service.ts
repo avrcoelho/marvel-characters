@@ -10,19 +10,24 @@ class GetCharactersService {
   constructor(private readonly axiosHttpClient: IHttpClientMOdel) {}
 
   public async execute(search = ''): Promise<CharacterDataContainerModel> {
-    const { ts, apiKey, hash } = generateApiCredentials();
+    const { ts, apikey, hash } = generateApiCredentials();
+
+    const params = {
+      ts,
+      hash,
+      apikey,
+    };
+
+    if (search) {
+      Object.assign(params, { name: search });
+    }
 
     try {
       const {
         data: { data },
       } = await this.axiosHttpClient.get<CharacterDataWrapperModel>({
         url: '/characters',
-        params: {
-          ts,
-          hash,
-          apiKey,
-          search,
-        },
+        params,
       });
 
       return data;

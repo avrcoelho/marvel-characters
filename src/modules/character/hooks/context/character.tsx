@@ -5,7 +5,7 @@ import { getCharactersService } from '../../services';
 
 interface CharacterContextData {
   characters: CharacterDataContainerModel | null;
-  getCharacters(serach: string): Promise<void>;
+  getCharacters(serach?: string): Promise<void>;
 }
 
 const CharacterContext = createContext<CharacterContextData>(

@@ -10,7 +10,7 @@ class AxiosHttpClient implements IHttpClientMOdel {
 
   constructor() {
     this.axiosInstance = axios.create({});
-    this.baseUrl = process.env.API_URL;
+    this.baseUrl = process.env.REACT_APP_API;
   }
 
   public get<TResponse>({

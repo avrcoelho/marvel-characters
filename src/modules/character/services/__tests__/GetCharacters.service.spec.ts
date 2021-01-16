@@ -4,7 +4,7 @@ import { setupServer } from 'msw/node';
 import AxiosHttpClient from '../../../../shared/infra/http/axios-http-client';
 import GetCharactersService from '../GetCharacters.service';
 
-const BASE_URL = process.env.API_URL;
+const BASE_URL = process.env.REACT_APP_API;
 
 const server = setupServer(
   rest.get(`${BASE_URL}/characters`, (req, res, ctx) => {

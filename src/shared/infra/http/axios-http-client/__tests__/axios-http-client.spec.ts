@@ -5,7 +5,7 @@ import AxiosHttpClient from '..';
 
 const axiosHttpClient = new AxiosHttpClient();
 
-const BASE_URL = process.env.API_URL;
+const BASE_URL = process.env.REACT_APP_API;
 
 const server = setupServer(
   rest.get(`${BASE_URL}/`, (req, res, ctx) => {
