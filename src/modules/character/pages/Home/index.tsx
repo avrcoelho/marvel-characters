@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 
 import { useCharacter } from '../../hooks/context/character';
-import Header from '../../components/headers/Home';
+import Header from '../../components/Headers/Home';
+import Search from '../../components/Search';
 
 import { Container } from './styles';
 
@@ -22,6 +23,8 @@ const Home = (): JSX.Element => {
           Mergulhe no domínio deslumbrantee todos os personagens clássicos que
           voce ama - e aqueles que você descobrirá em breve!
         </p>
+
+        <Search />
       </Container>
     </>
   );

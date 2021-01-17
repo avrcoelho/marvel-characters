@@ -21,7 +21,7 @@ export const Container = styled.main`
     width: 100%;
     max-width: 60rem;
     font-size: 1.6rem;
-    margin-top: 1.2rem;
+    margin: 1.2rem 0 5rem;
     line-height: 1.7;
     text-align: center;
   }
