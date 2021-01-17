@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
 interface Props {
-  value: string;
+  value: string | null;
   delay: number;
 }
 
-export const useDebounce = ({ value, delay }: Props): string => {
-  const [debouncedValue, setDebouncedValue] = useState<string>(value);
+export const useDebounce = ({ value, delay }: Props): string | null => {
+  const [debouncedValue, setDebouncedValue] = useState<string | null>(value);
 
   useEffect(() => {
     const handler = setTimeout(() => {

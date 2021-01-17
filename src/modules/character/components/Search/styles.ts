@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: 6rem;
   border-radius: 3rem;
   background-color: var(--secondary-color);
-  padding-left: 2.6rem;
+  padding: 0 2.6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -18,7 +18,7 @@ export const Container = styled.div`
     color: var(--primary-color);
     font-size: 1.6rem;
     background-color: transparent;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
 
     &::placeholder {
       color: var(--primary-color);

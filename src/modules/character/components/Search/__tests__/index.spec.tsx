@@ -2,7 +2,8 @@ import { screen, render, fireEvent, act } from '@testing-library/react';
 
 import Search from '..';
 
-const mockGetCharacters = jest.fn();
+const promise = Promise.resolve();
+const mockGetCharacters = jest.fn(() => promise);
 
 jest.mock('../../../hooks/context/character', () => {
   return {
@@ -21,7 +22,7 @@ describe('Search', () => {
     jest.useFakeTimers();
   });
 
-  it('should be able to search characters', () => {
+  it('should be able to search characters', async () => {
     render(<Search />);
     const inputElement = screen.getByRole('textbox');
 
@@ -33,6 +34,7 @@ describe('Search', () => {
     });
 
     expect(mockGetCharacters).toHaveBeenCalledWith('test');
+    await act(() => promise);
   });
 
   it('should not be able to search characters', () => {
