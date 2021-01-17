@@ -24,7 +24,7 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
   body, input, button {
-    font-family: sans-serif;
+    font-family: 'Work Sans', sans-serif;
     font-size: 1.6rem;
   }
   h1,h2,h3,h4,h5,h5, strong{
