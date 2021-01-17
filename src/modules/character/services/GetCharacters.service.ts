@@ -16,10 +16,11 @@ class GetCharactersService {
       ts,
       hash,
       apikey,
+      orderBy: 'name',
     };
 
     if (search) {
-      Object.assign(params, { name: search });
+      Object.assign(params, { nameStartsWith: search });
     }
 
     try {
