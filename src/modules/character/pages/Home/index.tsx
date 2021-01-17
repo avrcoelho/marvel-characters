@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { useCharacter } from '../../hooks/context/character';
+import Header from '../../components/Headers/Home';
 
 const Home = (): JSX.Element => {
   const { getCharacters, characters } = useCharacter();
@@ -9,7 +10,7 @@ const Home = (): JSX.Element => {
     getCharacters();
   }, [getCharacters]);
 
-  return <h1>Hero Home</h1>;
+  return <Header />;
 };
 
 export default Home;
