@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useCharacter } from '../../hooks/context/character';
-import Header from '../../components/Headers/Home';
+import Header from '../../components/headers/Home';
 
 import { Container } from './styles';
 
