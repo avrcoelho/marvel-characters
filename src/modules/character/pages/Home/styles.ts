@@ -19,7 +19,7 @@ export const Container = styled.main`
 
   .text {
     width: 100%;
-    max-width: 500px;
+    max-width: 60rem;
     font-size: 1.6rem;
     margin-top: 1.2rem;
     line-height: 1.7;
