@@ -82,7 +82,9 @@
       "!<rootDir>/src/shared/infra/cache/index.ts",
       "!<rootDir>/src/shared/infra/routes/*",
       "!<rootDir>/src/shared/infra/App.tsx",
-      "!<rootDir>/src/**/hooks/context/index.tsx"
+      "!<rootDir>/src/**/hooks/context/index.tsx",
+      "!<rootDir>/src/assets/**/*",
+      "!<rootDir>/src/index.tsx"
     ]
   }
 }
