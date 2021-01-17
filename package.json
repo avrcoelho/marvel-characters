@@ -84,7 +84,8 @@
       "!<rootDir>/src/shared/infra/App.tsx",
       "!<rootDir>/src/**/hooks/context/index.tsx",
       "!<rootDir>/src/assets/**/*",
-      "!<rootDir>/src/index.tsx"
+      "!<rootDir>/src/index.tsx",
+      "!<rootDir>/src/**/styles.ts"
     ]
   }
 }
