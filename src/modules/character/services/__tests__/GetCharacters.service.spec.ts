@@ -22,11 +22,16 @@ const server = setupServer(
   }),
 );
 
-const axiosHttpClient = new AxiosHttpClient();
-const getCharactersService = new GetCharactersService(axiosHttpClient);
+let axiosHttpClient: AxiosHttpClient;
+let getCharactersService: GetCharactersService;
 
 describe('GetCharactersService', () => {
   beforeAll(() => server.listen());
+
+  beforeEach(() => {
+    axiosHttpClient = new AxiosHttpClient();
+    getCharactersService = new GetCharactersService(axiosHttpClient);
+  });
 
   afterEach(() => server.resetHandlers());
 

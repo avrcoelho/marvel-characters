@@ -3,7 +3,7 @@ import { setupServer } from 'msw/node';
 
 import AxiosHttpClient from '..';
 
-const axiosHttpClient = new AxiosHttpClient();
+let axiosHttpClient: AxiosHttpClient;
 
 const BASE_URL = process.env.REACT_APP_API;
 
@@ -15,6 +15,10 @@ const server = setupServer(
 
 describe('axios-http-client', () => {
   beforeAll(() => server.listen());
+
+  beforeEach(() => {
+    axiosHttpClient = new AxiosHttpClient();
+  });
 
   afterEach(() => server.resetHandlers());
 
