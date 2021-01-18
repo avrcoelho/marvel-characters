@@ -5,7 +5,6 @@ import Home from '..';
 jest.mock('../../../hooks/context/character', () => {
   return {
     useCharacter: () => ({
-      getCharacters: jest.fn(),
       characters: [],
     }),
   };

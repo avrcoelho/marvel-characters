@@ -17,7 +17,6 @@ type IOptionType = 'orderByName' | 'favorites';
 interface CharacterContextData {
   characters: CharacterDataContainerModel | null;
   setSearchValue(value: string | null): void;
-  setOption(value: IOptionType): void;
   handleToggleOption(): void;
   option: IOptionType;
 }
@@ -35,7 +34,7 @@ export const CharacterProvider: React.FC = ({ children }) => {
   const [option, setOption] = useState<IOptionType>('orderByName');
 
   const getCharactersOrderByName = useCallback(
-    async (search = ''): Promise<void> => {
+    async (search): Promise<void> => {
       const response = await getCharactersService.execute(search);
 
       if (response) {
@@ -45,16 +44,13 @@ export const CharacterProvider: React.FC = ({ children }) => {
     [],
   );
 
-  const getFavoriteCharacters = useCallback(
-    async (search = ''): Promise<void> => {
-      const favorites = getFavoritesCharactersService.execute(
-        search,
-      ) as CharacterDataContainerModel;
+  const getFavoriteCharacters = useCallback(async (search): Promise<void> => {
+    const favorites = getFavoritesCharactersService.execute(
+      search,
+    ) as CharacterDataContainerModel;
 
-      setCharacters(favorites);
-    },
-    [],
-  );
+    setCharacters(favorites);
+  }, []);
 
   const handleToggleOption = (): void => {
     setOption(prevState =>
@@ -74,7 +70,6 @@ export const CharacterProvider: React.FC = ({ children }) => {
     <CharacterContext.Provider
       value={{
         characters,
-        setOption,
         setSearchValue,
         option,
         handleToggleOption,
