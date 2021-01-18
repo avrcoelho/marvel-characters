@@ -5,7 +5,10 @@ import SaveFavoriteCharacterService from './SaveFavoriteCharacter.service';
 
 const axiosHttpClient = new AxiosHttpClient();
 const localStorage = new LocalStorage();
-const getCharactersService = new GetCharactersService(axiosHttpClient);
+const getCharactersService = new GetCharactersService(
+  axiosHttpClient,
+  localStorage,
+);
 const saveFavoriteCharacterService = new SaveFavoriteCharacterService(
   localStorage,
 );
