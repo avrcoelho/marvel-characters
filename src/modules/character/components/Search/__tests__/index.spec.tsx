@@ -2,13 +2,12 @@ import { screen, render, fireEvent, act } from '@testing-library/react';
 
 import Search from '..';
 
-const promise = Promise.resolve();
-const mockGetCharacters = jest.fn(() => promise);
+const mockSetSearch = jest.fn();
 
 jest.mock('../../../hooks/context/character', () => {
   return {
     useCharacter: () => ({
-      getCharacters: mockGetCharacters,
+      setSearch: mockSetSearch,
     }),
   };
 });
@@ -33,8 +32,7 @@ describe('Search', () => {
       runInterval();
     });
 
-    expect(mockGetCharacters).toHaveBeenCalledWith('test');
-    await act(() => promise);
+    expect(mockSetSearch).toHaveBeenCalledWith('test');
   });
 
   it('should not be able to search characters', () => {
@@ -48,6 +46,6 @@ describe('Search', () => {
       runInterval();
     });
 
-    expect(mockGetCharacters).not.toHaveBeenCalled();
+    expect(mockSetSearch).not.toHaveBeenCalled();
   });
 });

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { FaSpinner } from 'react-icons/fa';
 
 import { ReactComponent as SearchIcon } from '../../../../assets/svgs/search.svg';
 import { useDebounce } from '../../../../shared/hooks/useDebounce';
@@ -8,25 +7,20 @@ import { useCharacter } from '../../hooks/context/character';
 import { Container } from './styles';
 
 const Search = (): JSX.Element => {
-  const [searchValue, setSearchValue] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [inputValue, setInputValue] = useState<string | null>(null);
 
-  const debouncedSearchValue = useDebounce({ value: searchValue, delay: 500 });
-  const { getCharacters } = useCharacter();
+  const debouncedSearchValue = useDebounce({ value: inputValue, delay: 500 });
+  const { setSearchValue } = useCharacter();
 
   useEffect(() => {
     const search = async (): Promise<void> => {
       if (typeof debouncedSearchValue === 'string') {
-        setIsLoading(true);
-
-        await getCharacters(debouncedSearchValue);
-
-        setIsLoading(false);
+        setSearchValue(inputValue);
       }
     };
 
     search();
-  }, [debouncedSearchValue, getCharacters]);
+  }, [debouncedSearchValue, inputValue, setSearchValue]);
 
   return (
     <Container>
@@ -37,12 +31,8 @@ const Search = (): JSX.Element => {
         name="search"
         placeholder="Procure por herois"
         autoComplete="off"
-        onChange={event => setSearchValue(event.target.value)}
+        onChange={event => setInputValue(event.target.value)}
       />
-
-      {isLoading && (
-        <FaSpinner size={19} color="#FF1510" className="icon-spin" />
-      )}
     </Container>
   );
 };
