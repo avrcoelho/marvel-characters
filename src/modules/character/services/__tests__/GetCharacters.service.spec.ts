@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
+import FakeLocalStorageService from '../../../../shared/infra/cache/fakes/FakeLocalStorage';
 import AxiosHttpClient from '../../../../shared/infra/http/axios-http-client';
 import GetCharactersService from '../GetCharacters.service';
 
@@ -22,6 +23,7 @@ const server = setupServer(
   }),
 );
 
+let fakeLocalStorageService: FakeLocalStorageService;
 let axiosHttpClient: AxiosHttpClient;
 let getCharactersService: GetCharactersService;
 
@@ -30,7 +32,11 @@ describe('GetCharactersService', () => {
 
   beforeEach(() => {
     axiosHttpClient = new AxiosHttpClient();
-    getCharactersService = new GetCharactersService(axiosHttpClient);
+    fakeLocalStorageService = new FakeLocalStorageService();
+    getCharactersService = new GetCharactersService(
+      axiosHttpClient,
+      fakeLocalStorageService,
+    );
   });
 
   afterEach(() => server.resetHandlers());
@@ -67,5 +73,35 @@ describe('GetCharactersService', () => {
       count: 20,
       results: [],
     });
+  });
+
+  it('should be able to return characters with favorite', async () => {
+    const results = [
+      {
+        id: 1,
+        name: 'John Doe',
+        thumbnail: 'test',
+      },
+    ];
+    const newFavoriteParsed = JSON.stringify([results[0]]);
+    fakeLocalStorageService.save('@characters/favorites', newFavoriteParsed);
+    server.use(
+      rest.get(`${BASE_URL}/characters`, (req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: {
+              offset: 0,
+              limit: 20,
+              total: 1493,
+              count: 20,
+              results,
+            },
+          }),
+        );
+      }),
+    );
+    const data = await getCharactersService.execute();
+
+    expect(data.results[0].isFavorite).toBe(true);
   });
 });
