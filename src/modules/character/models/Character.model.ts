@@ -2,6 +2,7 @@ export interface CharacterModel {
   id: number;
   name: string;
   thumbnail: string;
+  isFavorite?: boolean;
 }
 
 export interface CharacterDataContainerModel {
