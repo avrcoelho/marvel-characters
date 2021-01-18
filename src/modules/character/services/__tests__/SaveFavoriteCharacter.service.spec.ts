@@ -16,7 +16,10 @@ describe('SaveFavoriteCharacterService', () => {
     const newFavorite = {
       id: 1,
       name: 'John Doe',
-      thumbnail: 'image',
+      thumbnail: {
+        path: 'path',
+        extension: 'jpg',
+      },
     };
     const favorites = saveFavoriteCharacterService.execute(newFavorite);
 
@@ -30,7 +33,10 @@ describe('SaveFavoriteCharacterService', () => {
     const newFavorite = {
       id: 2,
       name: 'John Doe',
-      thumbnail: 'image',
+      thumbnail: {
+        path: 'path',
+        extension: 'jpg',
+      },
     };
     saveFavoriteCharacterService.execute(newFavorite);
     const favorites = saveFavoriteCharacterService.execute(newFavorite);
@@ -45,7 +51,10 @@ describe('SaveFavoriteCharacterService', () => {
     const newFavorite = {
       id: 2,
       name: 'John Doe',
-      thumbnail: 'image',
+      thumbnail: {
+        path: 'path',
+        extension: 'jpg',
+      },
     };
     saveFavoriteCharacterService.execute(newFavorite);
     saveFavoriteCharacterService.execute(newFavorite);

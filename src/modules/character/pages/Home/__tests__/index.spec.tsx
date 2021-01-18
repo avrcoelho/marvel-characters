@@ -2,14 +2,6 @@ import { render, screen } from '@testing-library/react';
 
 import Home from '..';
 
-jest.mock('../../../hooks/context/character', () => {
-  return {
-    useCharacter: () => ({
-      characters: [],
-    }),
-  };
-});
-
 describe('Home page', () => {
   it('should be able to render title', () => {
     render(<Home />);
