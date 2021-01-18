@@ -1,11 +1,20 @@
-import { createContext, useState, useContext, useCallback } from 'react';
+import {
+  createContext,
+  useState,
+  useContext,
+  useCallback,
+  useEffect,
+} from 'react';
 
 import { CharacterDataContainerModel } from '../../models/Character.model';
 import { getCharactersService } from '../../services';
 
+type IOptionType = 'orderByName' | 'favorites';
+
 interface CharacterContextData {
   characters: CharacterDataContainerModel | null;
-  getCharacters(serach?: string): Promise<void>;
+  setSearchValue(value: string | null): void;
+  setOption(value: IOptionType): void;
 }
 
 const CharacterContext = createContext<CharacterContextData>(
@@ -17,17 +26,39 @@ export const CharacterProvider: React.FC = ({ children }) => {
     characters,
     setCharacters,
   ] = useState<CharacterDataContainerModel | null>(null);
+  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const [option, setOption] = useState<IOptionType>('orderByName');
 
-  const getCharacters = useCallback(async (search = ''): Promise<void> => {
-    const response = await getCharactersService.execute(search);
+  const getCharactersOrderByName = useCallback(
+    async (search = ''): Promise<void> => {
+      const response = await getCharactersService.execute(search);
 
-    if (response) {
-      setCharacters(response);
+      if (response) {
+        setCharacters(response);
+      }
+    },
+    [],
+  );
+
+  const getFavoriteCharacters = useCallback(
+    async (search = ''): Promise<void> => {
+      // logic here
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (option === 'orderByName') {
+      getCharactersOrderByName(searchValue);
+    } else {
+      getFavoriteCharacters(searchValue);
     }
-  }, []);
+  }, [getCharactersOrderByName, getFavoriteCharacters, option, searchValue]);
 
   return (
-    <CharacterContext.Provider value={{ characters, getCharacters }}>
+    <CharacterContext.Provider
+      value={{ characters, setOption, setSearchValue }}
+    >
       {children}
     </CharacterContext.Provider>
   );
