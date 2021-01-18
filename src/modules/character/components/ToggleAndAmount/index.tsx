@@ -9,16 +9,7 @@ import { ReactComponent as ToggleRight } from '../../../../assets/svgs/toggle-ri
 import { Container } from './styles';
 
 const ToggleAndAmount = (): JSX.Element => {
-  const [option, setOption] = useState<'orderByName' | 'favorites'>(
-    'orderByName',
-  );
-  const { characters } = useCharacter();
-
-  const handleToggleOption = (): void => {
-    setOption(prevState =>
-      prevState === 'orderByName' ? 'favorites' : 'orderByName',
-    );
-  };
+  const { characters, handleToggleOption, option } = useCharacter();
 
   return (
     <Container>
