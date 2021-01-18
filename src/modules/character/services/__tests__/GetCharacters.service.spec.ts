@@ -104,4 +104,35 @@ describe('GetCharactersService', () => {
 
     expect(data.results[0].isFavorite).toBe(true);
   });
+
+  it('should be able to return characters without favorite', async () => {
+    const results = [
+      {
+        id: 1,
+        name: 'John Doe',
+        thumbnail: 'test',
+      },
+    ];
+    const newFavoriteParsed = JSON.stringify([results[0]]);
+    fakeLocalStorageService.save('@characters/favorites', newFavoriteParsed);
+    results[0].id = 2;
+    server.use(
+      rest.get(`${BASE_URL}/characters`, (req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: {
+              offset: 0,
+              limit: 20,
+              total: 1493,
+              count: 20,
+              results,
+            },
+          }),
+        );
+      }),
+    );
+    const data = await getCharactersService.execute();
+
+    expect(data.results[0]).not.toHaveProperty('isFavorite');
+  });
 });
