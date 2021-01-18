@@ -9,7 +9,7 @@ const Characters = (): JSX.Element => {
   return (
     <Container>
       {characters?.results.map(character => (
-        <Item character={character} />
+        <Item key={String(character.id)} character={character} />
       ))}
     </Container>
   );
