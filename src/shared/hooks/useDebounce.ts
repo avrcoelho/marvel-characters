@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const useDebounce = ({ value, delay }: Props): string | null => {
-  const [debouncedValue, setDebouncedValue] = useState<string | null>(value);
+  const [debouncedValue, setDebouncedValue] = useState<string | null>(null);
 
   useEffect(() => {
     const handler = setTimeout(() => {

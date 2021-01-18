@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
+import { act } from 'react-dom/test-utils';
 
 import { useDebounce } from '../useDebounce';
 
@@ -13,11 +14,13 @@ describe('debounce Hook', () => {
 
   it('should able to return value', async () => {
     const value = 'test';
-    const { result } = renderHook(() => useDebounce({ value, delay: 1000 }));
+    act(() => {
+      const { result } = renderHook(() => useDebounce({ value, delay: 500 }));
 
-    jest.advanceTimersByTime(1000);
-    runInterval();
+      jest.advanceTimersByTime(500);
+      runInterval();
 
-    expect(result.current).toBe(value);
+      expect(result.current).toBe(value);
+    });
   });
 });
