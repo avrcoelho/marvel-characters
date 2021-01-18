@@ -2,12 +2,12 @@ import FakeLocalStorageService from '../../../../shared/infra/cache/fakes/FakeLo
 import SaveFavoriteCharacterService from '../SaveFavoriteCharacter.service';
 
 let fakeLocalStorageService: FakeLocalStorageService;
-let getCharactersService: SaveFavoriteCharacterService;
+let saveFavoriteCharacterService: SaveFavoriteCharacterService;
 
 describe('SaveFavoriteCharacterService', () => {
   beforeEach(() => {
     fakeLocalStorageService = new FakeLocalStorageService();
-    getCharactersService = new SaveFavoriteCharacterService(
+    saveFavoriteCharacterService = new SaveFavoriteCharacterService(
       fakeLocalStorageService,
     );
   });
@@ -18,7 +18,7 @@ describe('SaveFavoriteCharacterService', () => {
       name: 'John Doe',
       thumbnail: 'image',
     };
-    const favorites = getCharactersService.execute(newFavorite);
+    const favorites = saveFavoriteCharacterService.execute(newFavorite);
 
     expect(favorites).toEqual({
       count: 1,
@@ -32,8 +32,8 @@ describe('SaveFavoriteCharacterService', () => {
       name: 'John Doe',
       thumbnail: 'image',
     };
-    getCharactersService.execute(newFavorite);
-    const favorites = getCharactersService.execute(newFavorite);
+    saveFavoriteCharacterService.execute(newFavorite);
+    const favorites = saveFavoriteCharacterService.execute(newFavorite);
 
     expect(favorites).toEqual({
       count: 2,
@@ -47,12 +47,14 @@ describe('SaveFavoriteCharacterService', () => {
       name: 'John Doe',
       thumbnail: 'image',
     };
-    getCharactersService.execute(newFavorite);
-    getCharactersService.execute(newFavorite);
-    getCharactersService.execute(newFavorite);
-    getCharactersService.execute(newFavorite);
-    getCharactersService.execute(newFavorite);
+    saveFavoriteCharacterService.execute(newFavorite);
+    saveFavoriteCharacterService.execute(newFavorite);
+    saveFavoriteCharacterService.execute(newFavorite);
+    saveFavoriteCharacterService.execute(newFavorite);
+    saveFavoriteCharacterService.execute(newFavorite);
 
-    expect(() => getCharactersService.execute(newFavorite)).toThrow(Error);
+    expect(() => saveFavoriteCharacterService.execute(newFavorite)).toThrow(
+      Error,
+    );
   });
 });
