@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { useCharacter } from '../../hooks/context/character';
 
 import { ReactComponent as Hearth } from '../../../../assets/svgs/hearth-sm.svg';
@@ -24,7 +22,11 @@ const ToggleAndAmount = (): JSX.Element => {
         </div>
 
         <button type="button" onClick={handleToggleOption}>
-          {option === 'orderByName' ? <ToggleLeft /> : <ToggleRight />}
+          {option === 'orderByName' ? (
+            <ToggleLeft data-testid="icon-left" />
+          ) : (
+            <ToggleRight data-testid="icon-right" />
+          )}
         </button>
 
         <div className="option">
