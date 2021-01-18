@@ -7,7 +7,10 @@ import {
 } from 'react';
 
 import { CharacterDataContainerModel } from '../../models/Character.model';
-import { getCharactersService } from '../../services';
+import {
+  getCharactersService,
+  getFavoritesCharactersService,
+} from '../../services';
 
 type IOptionType = 'orderByName' | 'favorites';
 
@@ -15,6 +18,8 @@ interface CharacterContextData {
   characters: CharacterDataContainerModel | null;
   setSearchValue(value: string | null): void;
   setOption(value: IOptionType): void;
+  handleToggleOption(): void;
+  option: IOptionType;
 }
 
 const CharacterContext = createContext<CharacterContextData>(
@@ -42,10 +47,20 @@ export const CharacterProvider: React.FC = ({ children }) => {
 
   const getFavoriteCharacters = useCallback(
     async (search = ''): Promise<void> => {
-      // logic here
+      const favorites = getFavoritesCharactersService.execute(
+        search,
+      ) as CharacterDataContainerModel;
+
+      setCharacters(favorites);
     },
     [],
   );
+
+  const handleToggleOption = (): void => {
+    setOption(prevState =>
+      prevState === 'orderByName' ? 'favorites' : 'orderByName',
+    );
+  };
 
   useEffect(() => {
     if (option === 'orderByName') {
@@ -57,7 +72,13 @@ export const CharacterProvider: React.FC = ({ children }) => {
 
   return (
     <CharacterContext.Provider
-      value={{ characters, setOption, setSearchValue }}
+      value={{
+        characters,
+        setOption,
+        setSearchValue,
+        option,
+        handleToggleOption,
+      }}
     >
       {children}
     </CharacterContext.Provider>
