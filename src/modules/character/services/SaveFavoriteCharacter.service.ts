@@ -9,21 +9,28 @@ class SaveFavoriteCharacterService {
   private keyCache = '@characters/favorites';
 
   public execute(newFavorite: CharacterModel): FavoriteCharacterModel {
-    const favorites = this.cache.get<CharacterModel[]>(this.keyCache);
+    const favoritesCached = this.cache.get<CharacterModel[]>(this.keyCache);
 
-    if (favorites && favorites.length > 4) {
+    if (favoritesCached && favoritesCached.length > 4) {
       throw new Error('Somente é permitido 5 favoritos');
     }
 
-    favorites?.push(newFavorite);
+    let favorites: CharacterModel[];
+    if (!favoritesCached) {
+      favorites = [];
+    } else {
+      favorites = favoritesCached;
+    }
+
+    favorites.push(newFavorite);
 
     const parsedFavorites = JSON.stringify(favorites);
 
     this.cache.save(this.keyCache, parsedFavorites);
 
     return {
-      results: favorites || [],
-      count: favorites?.length || 0,
+      results: favorites,
+      count: favorites.length,
     };
   }
 }

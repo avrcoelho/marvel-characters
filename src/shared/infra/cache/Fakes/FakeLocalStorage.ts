@@ -20,7 +20,7 @@ class FakeLocalStorage implements ICache {
   }
 
   public save(key: string, value: string): void {
-    this.storage[key] = JSON.stringify(value);
+    this.storage[key] = value;
   }
 }
 
