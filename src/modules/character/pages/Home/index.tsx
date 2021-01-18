@@ -1,13 +1,11 @@
-import { useCharacter } from '../../hooks/context/character';
 import Header from '../../components/Headers/Home';
+import ListCharacters from '../../components/Lists/Characters';
 import Search from '../../components/Search';
 import ToggleAndAmount from '../../components/ToggleAndAmount';
 
 import { Container } from './styles';
 
 const Home = (): JSX.Element => {
-  const { characters } = useCharacter();
-
   return (
     <>
       <Header />
@@ -20,8 +18,8 @@ const Home = (): JSX.Element => {
         </p>
 
         <Search />
-
         <ToggleAndAmount />
+        <ListCharacters />
       </Container>
     </>
   );

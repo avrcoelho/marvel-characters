@@ -1,7 +1,10 @@
 export interface CharacterModel {
   id: number;
   name: string;
-  thumbnail: string;
+  thumbnail: {
+    extension: string;
+    path: string;
+  };
   isFavorite?: boolean;
 }
 
