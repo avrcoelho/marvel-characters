@@ -1,6 +1,7 @@
 import AxiosHttpClient from '../../../shared/infra/http/axios-http-client';
 import LocalStorage from '../../../shared/infra/cache';
 import GetCharactersService from './GetCharacters.service';
+import GetCharacterService from './GetCharacter.service';
 import SaveFavoriteCharacterService from './SaveFavoriteCharacter.service';
 import RemoveFavoriteCharacterService from './RemoveFavoriteCharacter.service';
 import GetFavoritesCharactersService from './GetFavoritesCharacters.service';
@@ -11,6 +12,7 @@ const getCharactersService = new GetCharactersService(
   axiosHttpClient,
   localStorage,
 );
+const getCharacterService = new GetCharacterService(axiosHttpClient);
 const saveFavoriteCharacterService = new SaveFavoriteCharacterService(
   localStorage,
 );
@@ -23,6 +25,7 @@ const getFavoritesCharactersService = new GetFavoritesCharactersService(
 
 export {
   getCharactersService,
+  getCharacterService,
   saveFavoriteCharacterService,
   removeFavoriteCharacterService,
   getFavoritesCharactersService,
