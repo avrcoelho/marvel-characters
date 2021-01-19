@@ -9,7 +9,7 @@ import {
 class GetCharacterComicService {
   constructor(private readonly axiosHttpClient: IHttpClientModel) {}
 
-  public async execute(characterId: number): Promise<ComicDataContainerModel> {
+  public async execute(characterId: string): Promise<ComicDataContainerModel> {
     const { ts, apikey, hash } = generateApiCredentials();
 
     const params = {

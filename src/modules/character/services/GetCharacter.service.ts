@@ -10,7 +10,7 @@ class GetCharacterService {
   constructor(private readonly axiosHttpClient: IHttpClientModel) {}
 
   public async execute(
-    characterId: number,
+    characterId: string,
   ): Promise<CharacterDataContainerModel> {
     const { ts, apikey, hash } = generateApiCredentials();
 
