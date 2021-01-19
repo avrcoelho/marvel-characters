@@ -23,6 +23,10 @@ describe('character Hook', () => {
     const { result, waitForNextUpdate } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
+
+    act(() => {
+      result.current.getCharactersOrderByName();
+    });
     await waitForNextUpdate();
 
     expect(result.current.characters).toEqual({
@@ -34,7 +38,7 @@ describe('character Hook', () => {
     });
   });
 
-  it('should able dont return data', async () => {
+  it('should able dont return data', () => {
     jest
       .spyOn(getCharactersService, 'execute')
       .mockImplementationOnce((): any => {
@@ -44,10 +48,14 @@ describe('character Hook', () => {
       wrapper: CharacterProvider,
     });
 
+    act(() => {
+      result.current.getCharactersOrderByName();
+    });
+
     expect(result.current.characters).toEqual(null);
   });
 
-  it('should able to call functiom get characters', async () => {
+  it('should able to call functiom get favorites characters', () => {
     jest
       .spyOn(getFavoritesCharactersService, 'execute')
       .mockImplementationOnce((): any => {
@@ -61,41 +69,10 @@ describe('character Hook', () => {
     });
 
     act(() => {
-      result.current.handleToggleOption();
+      result.current.getFavoriteCharacters();
     });
 
     expect(result.current.characters).toEqual({
-      count: 20,
-      results: [],
-    });
-  });
-
-  it('should able to change option to orderByName', async () => {
-    jest
-      .spyOn(getCharactersService, 'execute')
-      .mockImplementationOnce((): any => {
-        return {
-          offset: 0,
-          limit: 20,
-          total: 1493,
-          count: 20,
-          results: [],
-        };
-      });
-    const { result, waitForNextUpdate } = renderHook(() => useCharacter(), {
-      wrapper: CharacterProvider,
-    });
-
-    act(() => {
-      result.current.handleToggleOption();
-      result.current.handleToggleOption();
-    });
-    await waitForNextUpdate();
-
-    expect(result.current.characters).toEqual({
-      offset: 0,
-      limit: 20,
-      total: 1493,
       count: 20,
       results: [],
     });
@@ -120,12 +97,15 @@ describe('character Hook', () => {
     act(() => {
       result.current.setSearchValue('john');
     });
+    act(() => {
+      result.current.getCharactersOrderByName();
+    });
     await waitForNextUpdate();
 
     expect(getCharactersServiceSpy).toHaveBeenCalledWith('john');
   });
 
-  it('should able to search character in favorites', async () => {
+  it('should able to search character in favorites', () => {
     const getFavoritesCharactersServiceSpy = jest
       .spyOn(getFavoritesCharactersService, 'execute')
       .mockImplementationOnce((): any => {
@@ -139,8 +119,10 @@ describe('character Hook', () => {
     });
 
     act(() => {
-      result.current.handleToggleOption();
       result.current.setSearchValue('john');
+    });
+    act(() => {
+      result.current.getFavoriteCharacters();
     });
 
     expect(getFavoritesCharactersServiceSpy).toHaveBeenCalledWith('john');
@@ -168,6 +150,9 @@ describe('character Hook', () => {
       });
     const { result, waitForNextUpdate } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
+    });
+    act(() => {
+      result.current.getCharactersOrderByName();
     });
     await waitForNextUpdate();
 
@@ -209,7 +194,9 @@ describe('character Hook', () => {
     const { result, waitForNextUpdate } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
-
+    act(() => {
+      result.current.getCharactersOrderByName();
+    });
     await waitForNextUpdate();
 
     act(() => {
@@ -219,7 +206,7 @@ describe('character Hook', () => {
     expect(result.current.characters?.results[0]).toEqual(character);
   });
 
-  it('should able to remove character of favorites wahen option is favorite', async () => {
+  it('should able to remove character of favorites wahen option is favorite', () => {
     const character = {
       id: 1,
       name: 'John Doe',
@@ -247,10 +234,11 @@ describe('character Hook', () => {
     const { result } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
-
     act(() => {
-      result.current.handleToggleOption();
+      result.current.setOption('favorites');
+      result.current.getFavoriteCharacters();
     });
+
     act(() => {
       result.current.removeFavorite(character.id);
     });
@@ -281,9 +269,13 @@ describe('character Hook', () => {
     const { result, waitForNextUpdate } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
+    act(() => {
+      result.current.getCharactersOrderByName();
+    });
     await waitForNextUpdate();
 
     act(() => {
+      result.current.setOption('orderByName');
       result.current.removeFavorite(character.id);
     });
 

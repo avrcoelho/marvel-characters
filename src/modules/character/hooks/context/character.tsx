@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useState,
-  useContext,
-  useCallback,
-  useEffect,
-} from 'react';
+import { createContext, useState, useContext, useCallback } from 'react';
 
 import {
   CharacterDataContainerModel,
@@ -17,15 +11,16 @@ import {
   removeFavoriteCharacterService,
 } from '../../services';
 
-type IOptionType = 'orderByName' | 'favorites' | nulo;
+type IOptionType = 'orderByName' | 'favorites';
 
 interface CharacterContextData {
   characters: CharacterDataContainerModel | null;
   setSearchValue(value: string | null): void;
-  handleToggleOption(): void;
-  getCharactersOrderByName(search?: string) => Promise<void>;
+  setOption(value: IOptionType): void;
   saveFavorite(character: CharacterModel): void;
   removeFavorite(characterId: number): void;
+  getCharactersOrderByName(): Promise<void>;
+  getFavoriteCharacters(): void;
   option: IOptionType;
 }
 
@@ -44,32 +39,23 @@ export const CharacterProvider: React.FC = ({ children }) => {
     setCharacters,
   ] = useState<CharacterDataContainerModel | null>(null);
   const [searchValue, setSearchValue] = useState<string | null>(null);
-  const [option, setOption] = useState<IOptionType>(null);
+  const [option, setOption] = useState<IOptionType>('orderByName');
 
-  const getCharactersOrderByName = useCallback(
-    async (search?: string): Promise<void> => {
-      const response = await getCharactersService.execute(search);
+  const getCharactersOrderByName = useCallback(async (): Promise<void> => {
+    const response = await getCharactersService.execute(searchValue);
 
-      if (response) {
-        setCharacters(response);
-      }
-    },
-    [],
-  );
+    if (response) {
+      setCharacters(response);
+    }
+  }, [searchValue]);
 
-  const getFavoriteCharacters = useCallback(async (search): Promise<void> => {
+  const getFavoriteCharacters = useCallback((): void => {
     const favorites = getFavoritesCharactersService.execute(
-      search,
+      searchValue,
     ) as CharacterDataContainerModel;
 
     setCharacters(favorites);
-  }, []);
-
-  const handleToggleOption = (): void => {
-    setOption(prevState =>
-      prevState === 'orderByName' ? 'favorites' : 'orderByName',
-    );
-  };
+  }, [searchValue]);
 
   const updateCharacterState = useCallback(
     ({ characterId, isFavorite }: UpdateCharacterStateParams): void => {
@@ -114,25 +100,17 @@ export const CharacterProvider: React.FC = ({ children }) => {
     [option, updateCharacterState],
   );
 
-  useEffect(() => {
-    if (option === 'orderByName') {
-      getCharactersOrderByName(searchValue);
-    }
-    if (option === 'favorites') {
-      getFavoriteCharacters(searchValue);
-    }
-  }, [getCharactersOrderByName, getFavoriteCharacters, option, searchValue]);
-
   return (
     <CharacterContext.Provider
       value={{
         characters,
         setSearchValue,
+        setOption,
         option,
-        handleToggleOption,
         saveFavorite,
         removeFavorite,
         getCharactersOrderByName,
+        getFavoriteCharacters,
       }}
     >
       {children}

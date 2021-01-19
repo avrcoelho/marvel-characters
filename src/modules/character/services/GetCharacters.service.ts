@@ -17,7 +17,9 @@ class GetCharactersService {
 
   private keyCache = '@characters/favorites';
 
-  public async execute(search = ''): Promise<CharacterDataContainerModel> {
+  public async execute(
+    search: string | null,
+  ): Promise<CharacterDataContainerModel> {
     const { ts, apikey, hash } = generateApiCredentials();
 
     const params = {
