@@ -70,30 +70,33 @@ export const CharacterProvider: React.FC = ({ children }) => {
     );
   };
 
-  const updateCharacterState = ({
-    characterId,
-    isFavorite,
-  }: UpdateCharacterStateParams): void => {
-    setCharacters(prevState => {
-      const results = prevState?.results.map(character => {
-        if (character.id === characterId) {
-          return { ...character, isFavorite };
-        }
+  const updateCharacterState = useCallback(
+    ({ characterId, isFavorite }: UpdateCharacterStateParams): void => {
+      setCharacters(
+        prevState =>
+          prevState && {
+            ...prevState,
+            results: prevState?.results.map(character => {
+              if (character.id === characterId) {
+                return { ...character, isFavorite };
+              }
 
-        return character;
-      });
+              return character;
+            }),
+          },
+      );
+    },
+    [],
+  );
 
-      Object.assign(prevState, { results });
+  const saveFavorite = useCallback(
+    (character: CharacterModel): void => {
+      saveFavoriteCharacterService.execute(character);
 
-      return prevState;
-    });
-  };
-
-  const saveFavorite = useCallback((character: CharacterModel): void => {
-    saveFavoriteCharacterService.execute(character);
-
-    updateCharacterState({ characterId: character.id, isFavorite: true });
-  }, []);
+      updateCharacterState({ characterId: character.id, isFavorite: true });
+    },
+    [updateCharacterState],
+  );
 
   const removeFavorite = useCallback(
     (characterId: number): void => {
@@ -107,7 +110,7 @@ export const CharacterProvider: React.FC = ({ children }) => {
 
       updateCharacterState({ characterId, isFavorite: false });
     },
-    [option],
+    [option, updateCharacterState],
   );
 
   useEffect(() => {
