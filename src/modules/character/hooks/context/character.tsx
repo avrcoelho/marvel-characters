@@ -17,12 +17,13 @@ import {
   removeFavoriteCharacterService,
 } from '../../services';
 
-type IOptionType = 'orderByName' | 'favorites';
+type IOptionType = 'orderByName' | 'favorites' | nulo;
 
 interface CharacterContextData {
   characters: CharacterDataContainerModel | null;
   setSearchValue(value: string | null): void;
   handleToggleOption(): void;
+  getCharactersOrderByName(search?: string) => Promise<void>;
   saveFavorite(character: CharacterModel): void;
   removeFavorite(characterId: number): void;
   option: IOptionType;
@@ -43,10 +44,10 @@ export const CharacterProvider: React.FC = ({ children }) => {
     setCharacters,
   ] = useState<CharacterDataContainerModel | null>(null);
   const [searchValue, setSearchValue] = useState<string | null>(null);
-  const [option, setOption] = useState<IOptionType>('orderByName');
+  const [option, setOption] = useState<IOptionType>(null);
 
   const getCharactersOrderByName = useCallback(
-    async (search): Promise<void> => {
+    async (search?: string): Promise<void> => {
       const response = await getCharactersService.execute(search);
 
       if (response) {
@@ -116,7 +117,8 @@ export const CharacterProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (option === 'orderByName') {
       getCharactersOrderByName(searchValue);
-    } else {
+    }
+    if (option === 'favorites') {
       getFavoriteCharacters(searchValue);
     }
   }, [getCharactersOrderByName, getFavoriteCharacters, option, searchValue]);
@@ -130,6 +132,7 @@ export const CharacterProvider: React.FC = ({ children }) => {
         handleToggleOption,
         saveFavorite,
         removeFavorite,
+        getCharactersOrderByName,
       }}
     >
       {children}
