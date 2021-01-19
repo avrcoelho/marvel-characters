@@ -11,9 +11,11 @@ class GetFavoritesCharactersService {
   public execute(search = ''): FavoriteCharacterModel {
     let favorites = this.cache.get<CharacterModel[]>(this.keyCache);
 
+    const searchParsed = search ? search.toLocaleLowerCase() : search;
+
     if (search && favorites) {
       favorites = favorites.filter(favorite =>
-        favorite.name.startsWith(search),
+        favorite.name.toLocaleLowerCase().startsWith(searchParsed),
       );
     }
 
