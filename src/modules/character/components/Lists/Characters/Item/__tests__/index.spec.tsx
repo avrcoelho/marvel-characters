@@ -29,7 +29,10 @@ describe('Characters List item', () => {
 
     fireEvent.click(buttonElement);
 
-    expect(mockAddOrRemoveFavorite).toHaveBeenCalledWith(true);
+    expect(mockAddOrRemoveFavorite).toHaveBeenCalledWith({
+      isFavorite: true,
+      character: props.character,
+    });
   });
 
   it('should be able to remove of favorites', () => {
@@ -39,7 +42,10 @@ describe('Characters List item', () => {
 
     fireEvent.click(buttonElement);
 
-    expect(mockAddOrRemoveFavorite).toHaveBeenCalledWith(false);
+    expect(mockAddOrRemoveFavorite).toHaveBeenCalledWith({
+      isFavorite: false,
+      character: props.character,
+    });
   });
 
   it('should be able to render hearth border icon', () => {
