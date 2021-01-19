@@ -22,7 +22,7 @@ class SaveFavoriteCharacterService {
       favorites = favoritesCached;
     }
 
-    favorites.push(newFavorite);
+    favorites.push({ ...newFavorite, isFavorite: true });
 
     const parsedFavorites = JSON.stringify(favorites);
 
