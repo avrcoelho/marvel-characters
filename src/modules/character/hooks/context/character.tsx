@@ -6,10 +6,15 @@ import {
   useEffect,
 } from 'react';
 
-import { CharacterDataContainerModel } from '../../models/Character.model';
+import {
+  CharacterDataContainerModel,
+  CharacterModel,
+} from '../../models/Character.model';
 import {
   getCharactersService,
   getFavoritesCharactersService,
+  saveFavoriteCharacterService,
+  removeFavoriteCharacterService,
 } from '../../services';
 
 type IOptionType = 'orderByName' | 'favorites';
@@ -18,7 +23,14 @@ interface CharacterContextData {
   characters: CharacterDataContainerModel | null;
   setSearchValue(value: string | null): void;
   handleToggleOption(): void;
+  saveFavorite(character: CharacterModel): void;
+  removeFavorite(characterId: number): void;
   option: IOptionType;
+}
+
+interface UpdateCharacterStateParams {
+  characterId: number;
+  isFavorite: boolean;
 }
 
 const CharacterContext = createContext<CharacterContextData>(
@@ -58,6 +70,46 @@ export const CharacterProvider: React.FC = ({ children }) => {
     );
   };
 
+  const updateCharacterState = ({
+    characterId,
+    isFavorite,
+  }: UpdateCharacterStateParams): void => {
+    setCharacters(prevState => {
+      const results = prevState?.results.map(character => {
+        if (character.id === characterId) {
+          return { ...character, isFavorite };
+        }
+
+        return character;
+      });
+
+      Object.assign(prevState, { results });
+
+      return prevState;
+    });
+  };
+
+  const saveFavorite = useCallback((character: CharacterModel): void => {
+    saveFavoriteCharacterService.execute(character);
+
+    updateCharacterState({ characterId: character.id, isFavorite: true });
+  }, []);
+
+  const removeFavorite = useCallback(
+    (characterId: number): void => {
+      const favorites = removeFavoriteCharacterService.execute(characterId);
+
+      if (option === 'favorites') {
+        setCharacters(favorites as CharacterDataContainerModel);
+
+        return;
+      }
+
+      updateCharacterState({ characterId, isFavorite: false });
+    },
+    [option],
+  );
+
   useEffect(() => {
     if (option === 'orderByName') {
       getCharactersOrderByName(searchValue);
@@ -73,6 +125,8 @@ export const CharacterProvider: React.FC = ({ children }) => {
         setSearchValue,
         option,
         handleToggleOption,
+        saveFavorite,
+        removeFavorite,
       }}
     >
       {children}
