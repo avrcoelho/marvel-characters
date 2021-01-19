@@ -2,16 +2,14 @@
 import IHttpClientModel from '../../../shared/infra/http/axios-http-client/models/IHttpClient.model';
 import generateApiCredentials from '../../../shared/utils/generateApiCredentials';
 import {
-  CharacterDataContainerModel,
-  CharacterDataWrapperModel,
-} from '../models/Character.model';
+  ComicDataContainerModel,
+  ComicDataWrapperModel,
+} from '../models/Comic.model';
 
 class GetCharacterComicService {
   constructor(private readonly axiosHttpClient: IHttpClientModel) {}
 
-  public async execute(
-    characterId: number,
-  ): Promise<CharacterDataContainerModel> {
+  public async execute(characterId: number): Promise<ComicDataContainerModel> {
     const { ts, apikey, hash } = generateApiCredentials();
 
     const params = {
@@ -23,7 +21,7 @@ class GetCharacterComicService {
     try {
       const {
         data: { data },
-      } = await this.axiosHttpClient.get<CharacterDataWrapperModel>({
+      } = await this.axiosHttpClient.get<ComicDataWrapperModel>({
         url: `/characters/${characterId}/comics`,
         params,
       });
