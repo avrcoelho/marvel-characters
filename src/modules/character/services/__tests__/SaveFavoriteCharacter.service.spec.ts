@@ -25,7 +25,7 @@ describe('SaveFavoriteCharacterService', () => {
 
     expect(favorites).toEqual({
       count: 1,
-      results: [newFavorite],
+      results: [{ ...newFavorite, isFavorite: true }],
     });
   });
 
@@ -43,7 +43,10 @@ describe('SaveFavoriteCharacterService', () => {
 
     expect(favorites).toEqual({
       count: 2,
-      results: [newFavorite, newFavorite],
+      results: [
+        { ...newFavorite, isFavorite: true },
+        { ...newFavorite, isFavorite: true },
+      ],
     });
   });
 
