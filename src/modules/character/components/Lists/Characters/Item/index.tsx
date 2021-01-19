@@ -4,19 +4,20 @@ import { Link } from 'react-router-dom';
 import { CharacterModel } from '../../../../models/Character.model';
 import { ReactComponent as Hearth } from '../../../../../../assets/svgs/hearth-sm.svg';
 import { ReactComponent as HearthBorder } from '../../../../../../assets/svgs/hearth-border-sm.svg';
+import { AddOrRemoveFavoriteParams } from '..';
 
 import { Container } from './styles';
 
 interface Props {
   character: CharacterModel;
-  addOrRemoveFavorite: (addToFavorite: boolean) => void;
+  addOrRemoveFavorite: (data: AddOrRemoveFavoriteParams) => void;
 }
 
 const Item = ({ character, addOrRemoveFavorite }: Props): JSX.Element => {
   const handleAddOrReoveRavorite = useCallback(() => {
-    const addToFavorite = !character.isFavorite;
+    const isFavorite = !character.isFavorite;
 
-    addOrRemoveFavorite(addToFavorite);
+    addOrRemoveFavorite({ isFavorite, character });
   }, [addOrRemoveFavorite, character]);
 
   return (
