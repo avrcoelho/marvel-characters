@@ -4,7 +4,6 @@ import { useCharacter, CharacterProvider } from '../context/character';
 import {
   getCharactersService,
   getFavoritesCharactersService,
-  removeFavoriteCharacterService,
 } from '../../services/index';
 
 describe('character Hook', () => {
