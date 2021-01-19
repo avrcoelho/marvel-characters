@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { useCharacter } from '../../hooks/context/character';
 
 import { ReactComponent as Hearth } from '../../../../assets/svgs/hearth-sm.svg';
@@ -7,7 +9,32 @@ import { ReactComponent as ToggleRight } from '../../../../assets/svgs/toggle-ri
 import { Container } from './styles';
 
 const ToggleAndAmount = (): JSX.Element => {
-  const { characters, handleToggleOption, option } = useCharacter();
+  const {
+    characters,
+    setOption,
+    option,
+    searchValue,
+    getCharactersOrderByName,
+    getFavoriteCharacters,
+  } = useCharacter();
+
+  const getCharacters = useCallback(
+    (optionSelected: 'orderByName' | 'favorites') => {
+      if (optionSelected === 'orderByName') {
+        getCharactersOrderByName(searchValue);
+      } else {
+        getFavoriteCharacters();
+      }
+    },
+    [getCharactersOrderByName, getFavoriteCharacters, searchValue],
+  );
+
+  const handleToggleOption = useCallback(() => {
+    const newOption = option === 'favorites' ? 'orderByName' : 'favorites';
+
+    setOption(newOption);
+    getCharacters(newOption);
+  }, [getCharacters, option, setOption]);
 
   return (
     <Container>

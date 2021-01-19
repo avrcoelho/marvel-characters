@@ -2,28 +2,45 @@ import { screen, render, fireEvent } from '@testing-library/react';
 
 import ToggleAndAmount from '..';
 
-const mockHandleToggleOption = jest.fn();
+const mockSetOption = jest.fn();
 const mockCharacters = jest.fn();
 const mockOption = jest.fn();
+const mockGetCharactersOrderByName = jest.fn();
+const mockGetFavoriteCharacters = jest.fn();
+const mockSearchValue = jest.fn();
 
 jest.mock('../../../hooks/context/character', () => {
   return {
     useCharacter: () => ({
-      handleToggleOption: mockHandleToggleOption,
+      getCharactersOrderByName: mockGetCharactersOrderByName,
+      getFavoriteCharacters: mockGetFavoriteCharacters,
+      setOption: mockSetOption,
       characters: mockCharacters(),
+      searchValue: mockSearchValue(),
       option: mockOption(),
     }),
   };
 });
 
 describe('ToggleAndAmount', () => {
-  it('should be able to call function handleToggleOption', () => {
+  it('should be able to call function setOption with favorite', () => {
+    mockOption.mockImplementation(() => 'orderByName');
     render(<ToggleAndAmount />);
     const buttonElement = screen.getByRole('button');
 
     fireEvent.click(buttonElement);
 
-    expect(mockHandleToggleOption).toHaveBeenCalled();
+    expect(mockSetOption).toHaveBeenCalledWith('favorites');
+  });
+
+  it('should be able to call function setOption with orderByName', () => {
+    mockOption.mockImplementation(() => 'favorites');
+    render(<ToggleAndAmount />);
+    const buttonElement = screen.getByRole('button');
+
+    fireEvent.click(buttonElement);
+
+    expect(mockSetOption).toHaveBeenCalledWith('orderByName');
   });
 
   it('should be able to have 0 results', () => {

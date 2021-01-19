@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ReactComponent as SearchIcon } from '../../../../assets/svgs/search.svg';
 import { useDebounce } from '../../../../shared/hooks/useDebounce';
@@ -7,20 +7,34 @@ import { useCharacter } from '../../hooks/context/character';
 import { Container } from './styles';
 
 const Search = (): JSX.Element => {
-  const [inputValue, setInputValue] = useState<string | null>(null);
+  const {
+    getCharactersOrderByName,
+    getFavoriteCharacters,
+    searchValue,
+    setSearchValue,
+    option,
+  } = useCharacter();
+  const { handleDebounce } = useDebounce(500);
 
-  const debouncedSearchValue = useDebounce({ value: inputValue, delay: 500 });
-  const { setSearchValue } = useCharacter();
+  const getCharacters = useCallback(
+    async (search: string): Promise<void> => {
+      if (option === 'orderByName') {
+        setSearchValue(search);
+        await getCharactersOrderByName(search);
+
+        return;
+      }
+
+      getFavoriteCharacters();
+    },
+    [getCharactersOrderByName, getFavoriteCharacters, option, setSearchValue],
+  );
 
   useEffect(() => {
-    const search = async (): Promise<void> => {
-      if (typeof debouncedSearchValue === 'string') {
-        setSearchValue(inputValue);
-      }
-    };
-
-    search();
-  }, [debouncedSearchValue, inputValue, setSearchValue]);
+    if (typeof searchValue === 'string') {
+      handleDebounce(() => getCharacters(searchValue));
+    }
+  }, [searchValue, getCharacters, handleDebounce]);
 
   return (
     <Container>
@@ -31,7 +45,8 @@ const Search = (): JSX.Element => {
         name="search"
         placeholder="Procure por herois"
         autoComplete="off"
-        onChange={event => setInputValue(event.target.value)}
+        value={searchValue || ''}
+        onChange={event => setSearchValue(event.target.value)}
       />
     </Container>
   );

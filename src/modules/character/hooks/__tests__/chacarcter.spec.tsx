@@ -95,10 +95,7 @@ describe('character Hook', () => {
     });
 
     act(() => {
-      result.current.setSearchValue('john');
-    });
-    act(() => {
-      result.current.getCharactersOrderByName();
+      result.current.getCharactersOrderByName('john');
     });
     await waitForNextUpdate();
 
@@ -117,10 +114,10 @@ describe('character Hook', () => {
     const { result } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
-
     act(() => {
       result.current.setSearchValue('john');
     });
+
     act(() => {
       result.current.getFavoriteCharacters();
     });
@@ -223,11 +220,11 @@ describe('character Hook', () => {
           results: [character],
         };
       });
-    jest
-      .spyOn(removeFavoriteCharacterService, 'execute')
+    const spyGetFavoritesCharactersService = jest
+      .spyOn(getFavoritesCharactersService, 'execute')
       .mockImplementationOnce((): any => {
         return {
-          count: 1,
+          count: 20,
           results: [],
         };
       });
@@ -243,7 +240,7 @@ describe('character Hook', () => {
       result.current.removeFavorite(character.id);
     });
 
-    expect(result.current.characters?.results).toEqual([]);
+    expect(spyGetFavoritesCharactersService).toHaveBeenCalled();
   });
 
   it('should able to remove character of favorites wahen option is orderByName', async () => {

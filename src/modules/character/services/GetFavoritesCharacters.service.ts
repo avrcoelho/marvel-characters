@@ -8,7 +8,7 @@ class GetFavoritesCharactersService {
 
   private keyCache = '@characters/favorites';
 
-  public execute(search?: string | null): FavoriteCharacterModel {
+  public execute(search?: string): FavoriteCharacterModel {
     let favorites = this.cache.get<CharacterModel[]>(this.keyCache);
 
     const searchParsed = search ? search.toLocaleLowerCase() : search;

@@ -1,10 +1,11 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { act } from 'react-dom/test-utils';
 
 import { useDebounce } from '../useDebounce';
 
+const mockFunc = jest.fn();
+
 const runInterval = async (): Promise<any> => {
-  await new Promise(r => setTimeout(r, 1000));
+  await new Promise(r => setTimeout(r, 500));
 };
 
 describe('debounce Hook', () => {
@@ -12,15 +13,13 @@ describe('debounce Hook', () => {
     jest.useFakeTimers();
   });
 
-  it('should able to return value', async () => {
-    const value = 'test';
-    act(() => {
-      const { result } = renderHook(() => useDebounce({ value, delay: 500 }));
+  it('should able to return value', () => {
+    const { result } = renderHook(() => useDebounce(500));
 
-      jest.advanceTimersByTime(500);
-      runInterval();
+    result.current.handleDebounce(mockFunc);
+    jest.advanceTimersByTime(500);
+    runInterval();
 
-      expect(result.current).toBe(value);
-    });
+    expect(mockFunc).toHaveBeenCalled();
   });
 });

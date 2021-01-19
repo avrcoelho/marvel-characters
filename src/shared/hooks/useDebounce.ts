@@ -1,22 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useRef } from 'react';
 
-interface Props {
-  value: string | null;
-  delay: number;
-}
+type Hook = (
+  delay: number,
+) => {
+  handleDebounce(func: any): void;
+};
 
-export const useDebounce = ({ value, delay }: Props): string | null => {
-  const [debouncedValue, setDebouncedValue] = useState<string | null>(null);
+export const useDebounce: Hook = (delay: number) => {
+  const timer = useRef<any>(null);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
+  const handleDebounce = useCallback(
+    (func): void => {
+      clearTimeout(timer.current);
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [delay, value]);
+      timer.current = setTimeout(() => {
+        func();
+      }, delay);
+    },
+    [delay],
+  );
 
-  return debouncedValue;
+  return { handleDebounce };
 };

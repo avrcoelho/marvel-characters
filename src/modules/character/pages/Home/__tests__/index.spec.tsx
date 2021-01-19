@@ -2,12 +2,14 @@ import { render, screen } from '@testing-library/react';
 
 import Home from '..';
 
-const mockGetFavoriteCharacters = jest.fn();
+const mockGetCharactersOrderByName = jest.fn();
+const mockSearchValue = jest.fn();
 
 jest.mock('../../../hooks/context/character', () => {
   return {
     useCharacter: () => ({
-      getFavoriteCharacters: mockGetFavoriteCharacters,
+      getCharactersOrderByName: mockGetCharactersOrderByName,
+      searchValue: mockSearchValue(),
     }),
   };
 });
@@ -33,9 +35,17 @@ describe('Home page', () => {
     ).toBeTruthy();
   });
 
-  it('should be able to call function getFavoriteCharacters', () => {
+  it('should be able to call function getFavoriteCharacters when search value not exists', () => {
+    mockSearchValue.mockReturnValue(undefined);
     render(<Home />);
 
-    expect(mockGetFavoriteCharacters).toHaveBeenCalled();
+    expect(mockGetCharactersOrderByName).toHaveBeenCalled();
+  });
+
+  it('should not be able call function getFavoriteCharacters when exists search value', () => {
+    mockSearchValue.mockReturnValue('john');
+    render(<Home />);
+
+    expect(mockGetCharactersOrderByName).not.toHaveBeenCalled();
   });
 });

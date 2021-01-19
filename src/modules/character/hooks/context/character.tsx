@@ -15,13 +15,14 @@ type IOptionType = 'orderByName' | 'favorites';
 
 interface CharacterContextData {
   characters: CharacterDataContainerModel | null;
-  setSearchValue(value: string | null): void;
-  setOption(value: IOptionType): void;
   saveFavorite(character: CharacterModel): void;
   removeFavorite(characterId: number): void;
-  getCharactersOrderByName(): Promise<void>;
+  getCharactersOrderByName(search?: string): Promise<void>;
   getFavoriteCharacters(): void;
+  setOption(value: IOptionType): void;
+  setSearchValue(value: string): void;
   option: IOptionType;
+  searchValue: string | undefined;
 }
 
 interface UpdateCharacterStateParams {
@@ -38,16 +39,19 @@ export const CharacterProvider: React.FC = ({ children }) => {
     characters,
     setCharacters,
   ] = useState<CharacterDataContainerModel | null>(null);
-  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
   const [option, setOption] = useState<IOptionType>('orderByName');
 
-  const getCharactersOrderByName = useCallback(async (): Promise<void> => {
-    const response = await getCharactersService.execute(searchValue);
+  const getCharactersOrderByName = useCallback(
+    async (search?: string): Promise<void> => {
+      const response = await getCharactersService.execute(search);
 
-    if (response) {
-      setCharacters(response);
-    }
-  }, [searchValue]);
+      if (response) {
+        setCharacters(response);
+      }
+    },
+    [],
+  );
 
   const getFavoriteCharacters = useCallback((): void => {
     const favorites = getFavoritesCharactersService.execute(
@@ -87,30 +91,31 @@ export const CharacterProvider: React.FC = ({ children }) => {
 
   const removeFavorite = useCallback(
     (characterId: number): void => {
-      const favorites = removeFavoriteCharacterService.execute(characterId);
+      removeFavoriteCharacterService.execute(characterId);
 
       if (option === 'favorites') {
-        setCharacters(favorites as CharacterDataContainerModel);
+        getFavoriteCharacters();
 
         return;
       }
 
       updateCharacterState({ characterId, isFavorite: false });
     },
-    [option, updateCharacterState],
+    [getFavoriteCharacters, option, updateCharacterState],
   );
 
   return (
     <CharacterContext.Provider
       value={{
         characters,
-        setSearchValue,
-        setOption,
         option,
+        searchValue,
         saveFavorite,
         removeFavorite,
         getCharactersOrderByName,
         getFavoriteCharacters,
+        setOption,
+        setSearchValue,
       }}
     >
       {children}
