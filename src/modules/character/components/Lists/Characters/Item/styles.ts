@@ -14,4 +14,30 @@ export const Container = styled.li`
       border-bottom: 0.3rem solid var(--primary-color);
     }
   }
+
+  .character-name-and-favorite {
+    width: 20rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.6rem;
+    margin-top: 1.8rem;
+    font-weight: bold;
+
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    button {
+      width: 2rem;
+      height: 2rem;
+      background: transparent;
+      border: none;
+      outline: none;
+      margin-left: 2rem;
+    }
+  }
 `;
