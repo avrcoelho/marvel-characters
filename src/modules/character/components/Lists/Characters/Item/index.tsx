@@ -1,24 +1,15 @@
-import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import { CharacterModel } from '../../../../models/Character.model';
 import ButtonFavorite from '../../../Buttons/Favorite';
-import { AddOrRemoveFavoriteParams } from '..';
 
 import { Container } from './styles';
 
 interface Props {
   character: CharacterModel;
-  addOrRemoveFavorite: (data: AddOrRemoveFavoriteParams) => void;
 }
 
-const Item = ({ character, addOrRemoveFavorite }: Props): JSX.Element => {
-  const handleAddOrReoveRavorite = useCallback(() => {
-    const isFavorite = !character.isFavorite;
-
-    addOrRemoveFavorite({ isFavorite, character });
-  }, [addOrRemoveFavorite, character]);
-
+const Item = ({ character }: Props): JSX.Element => {
   return (
     <Container>
       <Link to={`/character/${character.id}`}>
@@ -31,10 +22,7 @@ const Item = ({ character, addOrRemoveFavorite }: Props): JSX.Element => {
       <div className="character-name-and-favorite">
         <span>{character.name}</span>
 
-        <ButtonFavorite
-          onClick={handleAddOrReoveRavorite}
-          isFavorite={!!character.isFavorite}
-        />
+        <ButtonFavorite character={character} />
       </div>
     </Container>
   );

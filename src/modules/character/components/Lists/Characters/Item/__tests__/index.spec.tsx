@@ -1,8 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import Item from '..';
-
-const mockAddOrRemoveFavorite = jest.fn();
 
 jest.mock('react-router-dom', () => {
   return {
@@ -19,32 +17,17 @@ describe('Characters List item', () => {
         path: 'path',
         extension: 'jpg',
       },
+      comics: {
+        returned: 3,
+      },
+      description: 'description',
+      isFavorite: false,
     },
-    addOrRemoveFavorite: mockAddOrRemoveFavorite,
   };
 
-  it('should be able to add in favorites', () => {
+  it('should be able to render character name', () => {
     render(<Item {...props} />);
-    const buttonElement = screen.getByRole('button');
 
-    fireEvent.click(buttonElement);
-
-    expect(mockAddOrRemoveFavorite).toHaveBeenCalledWith({
-      isFavorite: true,
-      character: props.character,
-    });
-  });
-
-  it('should be able to remove of favorites', () => {
-    Object.assign(props.character, { isFavorite: true });
-    render(<Item {...props} />);
-    const buttonElement = screen.getByRole('button');
-
-    fireEvent.click(buttonElement);
-
-    expect(mockAddOrRemoveFavorite).toHaveBeenCalledWith({
-      isFavorite: false,
-      character: props.character,
-    });
+    expect(screen.getByText('John Doe')).toBeTruthy();
   });
 });
