@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import Header from '../../components/Headers/Character';
 import { CharacterModel } from '../../models/Character.model';
 import { ComicModel } from '../../models/Comic.model';
 import { getCharacterService, getCharacterComicsService } from '../../services';
@@ -43,7 +44,7 @@ const Character = (): JSX.Element => {
     getCharacterDetails();
   }, [id]);
 
-  return <h1>character</h1>;
+  return <Header />;
 };
 
 export default Character;
