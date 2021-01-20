@@ -47,18 +47,4 @@ describe('Characters List item', () => {
       character: props.character,
     });
   });
-
-  it('should be able to render hearth border icon', () => {
-    Object.assign(props.character, { isFavorite: true });
-    render(<Item {...props} />);
-
-    expect(screen.getByTestId('hearth')).toBeTruthy();
-  });
-
-  it('should be able to render hearth icon', () => {
-    Object.assign(props.character, { isFavorite: false });
-    render(<Item {...props} />);
-
-    expect(screen.getByTestId('hearth-border')).toBeTruthy();
-  });
 });

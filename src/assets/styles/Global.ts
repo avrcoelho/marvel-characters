@@ -32,6 +32,9 @@ export default createGlobalStyle`
   }
   button {
     cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
   }
 
   .icon-spin {

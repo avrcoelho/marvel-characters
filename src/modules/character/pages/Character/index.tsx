@@ -3,9 +3,12 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import Header from '../../components/Headers/Character';
+import CharacterDetails from '../../components/CharacterDetails';
 import { CharacterModel } from '../../models/Character.model';
 import { ComicModel } from '../../models/Comic.model';
 import { getCharacterService, getCharacterComicsService } from '../../services';
+
+import { MainContainer } from './styles';
 
 interface ParamsRoute {
   id: string;
@@ -44,7 +47,21 @@ const Character = (): JSX.Element => {
     getCharacterDetails();
   }, [id]);
 
-  return <Header />;
+  return (
+    <>
+      <Header />
+      <MainContainer>
+        <div className="content">
+          <CharacterDetails />
+
+          <img
+            src="http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0.jpg"
+            alt=""
+          />
+        </div>
+      </MainContainer>
+    </>
+  );
 };
 
 export default Character;

@@ -1,10 +1,9 @@
 import { Container } from './styles';
 
-import { ReactComponent as Hearth } from '../../../../assets/svgs/hearth-sm.svg';
-import { ReactComponent as HearthBorder } from '../../../../assets/svgs/hearth-border-sm.svg';
 import { ReactComponent as Rating } from '../../../../assets/svgs/rating.svg';
 import { ReactComponent as Comic } from '../../../../assets/svgs/comic.svg';
 import { ReactComponent as Movie } from '../../../../assets/svgs/movie.svg';
+import ButtonFavorite from '../Buttons/Favorite';
 
 const CharacterDetails = (): JSX.Element => {
   return (
@@ -12,9 +11,7 @@ const CharacterDetails = (): JSX.Element => {
       <div className="title-favorite">
         <h1 className="title">Hulk</h1>
 
-        <button type="button">
-          <Hearth data-testid="hearth" />
-        </button>
+        <ButtonFavorite isFavorite={false} />
       </div>
 
       <p>jskj ksdj ksd</p>
