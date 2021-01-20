@@ -18,18 +18,14 @@ class GetCharacterComicService {
       apikey,
     };
 
-    try {
-      const {
-        data: { data },
-      } = await this.axiosHttpClient.get<ComicDataWrapperModel>({
-        url: `/characters/${characterId}/comics`,
-        params,
-      });
+    const {
+      data: { data },
+    } = await this.axiosHttpClient.get<ComicDataWrapperModel>({
+      url: `/characters/${characterId}/comics`,
+      params,
+    });
 
-      return data;
-    } catch (error) {
-      return error;
-    }
+    return data;
   }
 }
 

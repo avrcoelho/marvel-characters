@@ -38,29 +38,9 @@ describe('GetCharacterComicsService', () => {
   afterAll(() => server.close());
 
   it('should be able to return success characters/comics', async () => {
-    const data = await getCharacterComicsService.execute(123);
+    const data = await getCharacterComicsService.execute('123');
 
     expect(data).toEqual({
-      offset: 0,
-      limit: 20,
-      total: 1493,
-      count: 20,
-      results: [],
-    });
-  });
-
-  it('should be able to return error', async () => {
-    server.use(
-      rest.get(`${BASE_URL}/characters/123/comics`, (req, res, ctx) => {
-        return res(
-          ctx.status(500),
-          ctx.json({ message: 'Internal Server Error' }),
-        );
-      }),
-    );
-    const data = await getCharacterComicsService.execute(123);
-
-    expect(data).not.toEqual({
       offset: 0,
       limit: 20,
       total: 1493,

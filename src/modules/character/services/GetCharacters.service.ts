@@ -31,29 +31,25 @@ class GetCharactersService {
       Object.assign(params, { nameStartsWith: search });
     }
 
-    try {
-      const {
-        data: { data },
-      } = await this.axiosHttpClient.get<CharacterDataWrapperModel>({
-        url: '/characters',
-        params,
+    const {
+      data: { data },
+    } = await this.axiosHttpClient.get<CharacterDataWrapperModel>({
+      url: '/characters',
+      params,
+    });
+
+    const favorites = this.cache.get<CharacterModel[]>(this.keyCache);
+
+    if (favorites) {
+      const settedFavorites = setCharactersFaverite({
+        characters: data.results,
+        favorites,
       });
 
-      const favorites = this.cache.get<CharacterModel[]>(this.keyCache);
-
-      if (favorites) {
-        const settedFavorites = setCharactersFaverite({
-          characters: data.results,
-          favorites,
-        });
-
-        data.results = settedFavorites;
-      }
-
-      return data;
-    } catch (error) {
-      return error;
+      data.results = settedFavorites;
     }
+
+    return data;
   }
 }
 

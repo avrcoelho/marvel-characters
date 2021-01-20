@@ -20,18 +20,14 @@ class GetCharacterService {
       apikey,
     };
 
-    try {
-      const {
-        data: { data },
-      } = await this.axiosHttpClient.get<CharacterDataWrapperModel>({
-        url: `/characters/${characterId}`,
-        params,
-      });
+    const {
+      data: { data },
+    } = await this.axiosHttpClient.get<CharacterDataWrapperModel>({
+      url: `/characters/${characterId}`,
+      params,
+    });
 
-      return data;
-    } catch (error) {
-      return error;
-    }
+    return data;
   }
 }
 
