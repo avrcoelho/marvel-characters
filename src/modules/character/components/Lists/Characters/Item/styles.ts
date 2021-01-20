@@ -32,11 +32,6 @@ export const Container = styled.li`
     }
 
     button {
-      width: 2rem;
-      height: 2rem;
-      background: transparent;
-      border: none;
-      outline: none;
       margin-left: 2rem;
     }
   }
