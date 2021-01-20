@@ -8,7 +8,7 @@ import { CharacterModel } from '../../models/Character.model';
 import { ComicModel } from '../../models/Comic.model';
 import { getCharacterService, getCharacterComicsService } from '../../services';
 
-import { MainContainer } from './styles';
+import { MainContainer, CharacterNameBg } from './styles';
 
 interface ParamsRoute {
   id: string;
@@ -59,6 +59,8 @@ const Character = (): JSX.Element => {
             alt=""
           />
         </div>
+
+        <CharacterNameBg>Hulk</CharacterNameBg>
       </MainContainer>
     </>
   );

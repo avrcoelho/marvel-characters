@@ -2,8 +2,6 @@ import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import { CharacterModel } from '../../../../models/Character.model';
-import { ReactComponent as Hearth } from '../../../../../../assets/svgs/hearth-sm.svg';
-import { ReactComponent as HearthBorder } from '../../../../../../assets/svgs/hearth-border-sm.svg';
 import ButtonFavorite from '../../../Buttons/Favorite';
 import { AddOrRemoveFavoriteParams } from '..';
 

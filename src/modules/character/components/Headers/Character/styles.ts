@@ -4,7 +4,6 @@ export const Container = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: auto;
   padding: 0 2rem;
   background-color: var(--green-color);
 
