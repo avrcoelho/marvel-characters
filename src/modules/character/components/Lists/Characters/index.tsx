@@ -9,7 +9,7 @@ import { Container } from './styles';
 const Characters = (): JSX.Element => {
   const { characters, saveFavorite, removeFavorite } = useCharacter();
 
-  const handleAddOrReoveRavorite = useCallback(
+  const handleAddOrRemoveFavorite = useCallback(
     (character: CharacterModel): void => {
       if (character.isFavorite) {
         removeFavorite(character.id);
@@ -28,7 +28,7 @@ const Characters = (): JSX.Element => {
         <Item
           key={String(character.id)}
           character={character}
-          handleAddOrReoveRavorite={handleAddOrReoveRavorite}
+          handleAddOrRemoveFavorite={handleAddOrRemoveFavorite}
         />
       ))}
     </Container>

@@ -33,7 +33,6 @@ const Character = (): JSX.Element => {
   const verifyIfIsFavorite = useCallback(
     (character: CharacterModel): CharacterModel => {
       const favorites = getFavoritesCharactersService.execute();
-
       const isFavorite = favorites.results.some(
         favorite => favorite.id === character.id,
       );
@@ -60,29 +59,18 @@ const Character = (): JSX.Element => {
     [verifyIfIsFavorite],
   );
 
-  const updateState = useCallback((): void => {
-    setCharacterDetails(
-      prevState =>
-        prevState && {
-          ...prevState,
-          isFavorite: !prevState?.isFavorite,
-        },
-    );
-  }, []);
-
-  const handleAddOrReoveRavorite = useCallback((): void => {
-    try {
-      if (characterDetails?.isFavorite) {
-        removeFavorite(Number(id));
-      } else {
-        saveFavorite(characterDetails as CharacterModel);
-      }
-
-      updateState();
-    } catch (error) {
-      toast.error(error.message);
+  const handleAddOrRemoveFavorite = useCallback((): void => {
+    if (characterDetails?.isFavorite) {
+      removeFavorite(Number(id));
+    } else {
+      saveFavorite(characterDetails as CharacterModel);
     }
-  }, [characterDetails, id, removeFavorite, saveFavorite, updateState]);
+
+    const updatedCharacter = verifyIfIsFavorite(
+      characterDetails as CharacterModel,
+    );
+    setCharacterDetails(updatedCharacter);
+  }, [characterDetails, id, removeFavorite, saveFavorite, verifyIfIsFavorite]);
 
   useEffect(() => {
     const getCharacterDetails = async (): Promise<void> => {
@@ -104,7 +92,7 @@ const Character = (): JSX.Element => {
           <div className="content">
             <CharacterDetails
               character={characterDetails}
-              handleAddOrReoveRavorite={handleAddOrReoveRavorite}
+              handleAddOrRemoveFavorite={handleAddOrRemoveFavorite}
             />
 
             <img

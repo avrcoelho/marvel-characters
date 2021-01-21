@@ -8,12 +8,12 @@ import ButtonFavorite from '../Buttons/Favorite';
 
 interface Props {
   character: CharacterModel;
-  handleAddOrReoveRavorite: () => void;
+  handleAddOrRemoveFavorite: () => void;
 }
 
 const CharacterDetails = ({
   character,
-  handleAddOrReoveRavorite,
+  handleAddOrRemoveFavorite,
 }: Props): JSX.Element => {
   return (
     <Container>
@@ -21,7 +21,7 @@ const CharacterDetails = ({
         <h1 className="title">{character.name}</h1>
 
         <ButtonFavorite
-          onClick={handleAddOrReoveRavorite}
+          onClick={handleAddOrRemoveFavorite}
           isFavorite={!!character.isFavorite}
         />
       </div>

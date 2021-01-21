@@ -25,7 +25,7 @@ describe('Characters List item', () => {
       description: 'description',
       isFavorite: false,
     },
-    handleAddOrReoveRavorite: mockAddOrRemoveFavorite,
+    handleAddOrRemoveFavorite: mockAddOrRemoveFavorite,
   };
 
   it('should be able call function', () => {

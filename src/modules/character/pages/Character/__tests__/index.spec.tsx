@@ -190,33 +190,4 @@ describe('Character page', () => {
 
     expect(mockRemoveFavorite).toHaveBeenCalled();
   });
-
-  it('should be able to remove character on the favorites', async () => {
-    jest.spyOn(getCharacterService, 'execute').mockImplementation((): any => {
-      return responseCharacter;
-    });
-    jest
-      .spyOn(getCharacterComicsService, 'execute')
-      .mockImplementation((): any => {
-        return responseComic;
-      });
-    jest
-      .spyOn(getFavoritesCharactersService, 'execute')
-      .mockImplementation((): any => {
-        return {
-          results: [{ ...responseCharacter.results[0], id: 11 }],
-        };
-      });
-    mockSaveFavorite.mockImplementation(() => {
-      throw new Error('invalid');
-    });
-    render(<Character />);
-    await act(() => promise);
-    const spyToast = jest.spyOn(toast, 'error');
-    const buttonElement = screen.getByRole('button');
-
-    fireEvent.click(buttonElement);
-
-    expect(spyToast).toHaveBeenCalled();
-  });
 });

@@ -19,7 +19,7 @@ describe('ChracterDetails', () => {
       description: 'description',
       isFavorite: false,
     },
-    handleAddOrReoveRavorite: mockAddOrRemoveFavorite,
+    handleAddOrRemoveFavorite: mockAddOrRemoveFavorite,
   };
 
   it('should be able to call function', () => {

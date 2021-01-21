@@ -14,7 +14,7 @@ describe('Comics List item', () => {
         extension: 'jpg',
       },
     },
-    handleAddOrReoveRavorite: mockAddOrRemoveFavorite,
+    handleAddOrRemoveFavorite: mockAddOrRemoveFavorite,
   };
 
   it('should be able render comic title', () => {
