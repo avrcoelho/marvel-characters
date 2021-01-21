@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import Header from '../../components/Headers/Character';
 import CharacterDetails from '../../components/CharacterDetails';
+import ListComics from '../../components/Lists/Comics';
 import { CharacterModel } from '../../models/Character.model';
 import { ComicModel } from '../../models/Comic.model';
 import {
@@ -115,6 +116,8 @@ const Character = (): JSX.Element => {
           <CharacterNameBg>{characterDetails?.name}</CharacterNameBg>
         </MainContainer>
       )}
+
+      <ListComics comics={comics} />
     </Container>
   );
 };
