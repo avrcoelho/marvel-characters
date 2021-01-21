@@ -4,12 +4,14 @@ import Home from '..';
 
 const mockGetCharactersOrderByName = jest.fn();
 const mockSearchValue = jest.fn();
+const mockOption = jest.fn();
 
 jest.mock('../../../hooks/context/character', () => {
   return {
     useCharacter: () => ({
       getCharactersOrderByName: mockGetCharactersOrderByName,
       searchValue: mockSearchValue(),
+      option: mockOption(),
     }),
   };
 });
@@ -37,6 +39,7 @@ describe('Home page', () => {
 
   it('should be able to call function getFavoriteCharacters when search value not exists', () => {
     mockSearchValue.mockReturnValue(undefined);
+    mockOption.mockReturnValue('orderByName');
     render(<Home />);
 
     expect(mockGetCharactersOrderByName).toHaveBeenCalled();

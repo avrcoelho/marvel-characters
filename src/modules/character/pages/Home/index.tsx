@@ -9,13 +9,13 @@ import { useCharacter } from '../../hooks/context/character';
 import { Container } from './styles';
 
 const Home = (): JSX.Element => {
-  const { getCharactersOrderByName, searchValue } = useCharacter();
+  const { getCharactersOrderByName, searchValue, option } = useCharacter();
 
   useEffect(() => {
-    if (typeof searchValue === 'undefined') {
+    if (typeof searchValue === 'undefined' && option === 'orderByName') {
       getCharactersOrderByName();
     }
-  }, [getCharactersOrderByName, searchValue]);
+  }, [getCharactersOrderByName, option, searchValue]);
 
   return (
     <>
