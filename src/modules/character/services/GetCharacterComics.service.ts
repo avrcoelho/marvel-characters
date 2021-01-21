@@ -16,6 +16,7 @@ class GetCharacterComicService {
       ts,
       hash,
       apikey,
+      orderBy: '-onsaleDate',
     };
 
     const {
