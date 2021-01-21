@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { Container } from './styles';
 
 import { ReactComponent as Rating } from '../../../../assets/svgs/rating.svg';
@@ -8,13 +10,28 @@ import ButtonFavorite from '../Buttons/Favorite';
 
 interface Props {
   character: CharacterModel;
+  dateOfLastComic: string | null;
   handleAddOrRemoveFavorite: () => void;
 }
 
 const CharacterDetails = ({
   character,
+  dateOfLastComic,
   handleAddOrRemoveFavorite,
 }: Props): JSX.Element => {
+  const parsedDate = useMemo(() => {
+    if (!dateOfLastComic) {
+      return '';
+    }
+
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = new Date(dateOfLastComic);
+    const formated = date.toLocaleDateString('pt-br', options);
+    const parsed = formated.replace(/de\s/g, '');
+
+    return parsed;
+  }, [dateOfLastComic]);
+
   return (
     <Container>
       <div className="title-favorite">
@@ -39,7 +56,7 @@ const CharacterDetails = ({
         <dl>
           <dt>Filmes</dt>
           <dd>
-            <Movie />5
+            <Movie /> {character.series.returned}
           </dd>
         </dl>
       </div>
@@ -47,9 +64,11 @@ const CharacterDetails = ({
         <div>
           <strong>Rating:</strong> <Rating />
         </div>
-        <div>
-          <strong>Último quadrinho:</strong> 13 fev. 2020
-        </div>
+        {parsedDate && (
+          <div>
+            <strong>Último quadrinho:</strong> {parsedDate}
+          </div>
+        )}
       </div>
     </Container>
   );

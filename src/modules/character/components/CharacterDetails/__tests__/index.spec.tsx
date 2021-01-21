@@ -16,9 +16,13 @@ describe('ChracterDetails', () => {
       comics: {
         returned: 3,
       },
+      series: {
+        returned: 3,
+      },
       description: 'description',
       isFavorite: false,
     },
+    dateOfLastComic: '2020',
     handleAddOrRemoveFavorite: mockAddOrRemoveFavorite,
   };
 
