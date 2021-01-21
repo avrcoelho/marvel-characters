@@ -15,6 +15,7 @@ import {
 import { useCharacter } from '../../hooks/context/character';
 
 import { Container, MainContainer, CharacterNameBg } from './styles';
+import Footer from '../../components/Footer';
 
 interface ParamsRoute {
   id: string;
@@ -85,28 +86,33 @@ const Character = (): JSX.Element => {
   }, [id, remoteConsultAndSetInState]);
 
   return (
-    <Container>
-      <Header />
-      {characterDetails && (
-        <MainContainer>
-          <div className="content">
-            <CharacterDetails
-              character={characterDetails}
-              handleAddOrRemoveFavorite={handleAddOrRemoveFavorite}
-            />
+    <>
+      <Container>
+        <Header />
+        {characterDetails && (
+          <>
+            <MainContainer>
+              <div className="content">
+                <CharacterDetails
+                  character={characterDetails}
+                  handleAddOrRemoveFavorite={handleAddOrRemoveFavorite}
+                />
 
-            <img
-              src={`${characterDetails.thumbnail.path}.${characterDetails.thumbnail.extension}`}
-              alt={characterDetails.name}
-            />
-          </div>
+                <img
+                  src={`${characterDetails.thumbnail.path}.${characterDetails.thumbnail.extension}`}
+                  alt={characterDetails.name}
+                />
+              </div>
 
-          <CharacterNameBg>{characterDetails?.name}</CharacterNameBg>
-        </MainContainer>
-      )}
+              <CharacterNameBg>{characterDetails?.name}</CharacterNameBg>
+            </MainContainer>
 
-      <ListComics comics={comics} />
-    </Container>
+            <ListComics comics={comics} />
+          </>
+        )}
+      </Container>
+      <Footer />
+    </>
   );
 };
 
