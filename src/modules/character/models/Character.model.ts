@@ -8,6 +8,9 @@ export interface CharacterModel {
   comics: {
     returned: number;
   };
+  series: {
+    returned: number;
+  };
   description: string;
   isFavorite?: boolean;
 }

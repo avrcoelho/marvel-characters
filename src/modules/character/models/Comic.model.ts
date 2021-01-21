@@ -1,3 +1,7 @@
+export interface ComicDate {
+  date: string;
+}
+
 export interface ComicModel {
   id: number;
   title: string;
@@ -5,6 +9,7 @@ export interface ComicModel {
     extension: string;
     path: string;
   };
+  dates: ComicDate[];
 }
 
 export interface ComicDataContainerModel {
