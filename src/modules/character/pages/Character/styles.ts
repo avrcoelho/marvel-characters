@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 
+export const Container = styled.main`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--green-color);
+`;
+
 export const MainContainer = styled.main`
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 6rem 2rem;
-  background-color: var(--green-color);
 
   .content {
     width: 100%;
