@@ -5,6 +5,10 @@ export interface CharacterModel {
     extension: string;
     path: string;
   };
+  comics: {
+    returned: number;
+  };
+  description: string;
   isFavorite?: boolean;
 }
 
