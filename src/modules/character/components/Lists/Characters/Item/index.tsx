@@ -7,9 +7,10 @@ import { Container } from './styles';
 
 interface Props {
   character: CharacterModel;
+  handleAddOrReoveRavorite: (character: CharacterModel) => void;
 }
 
-const Item = ({ character }: Props): JSX.Element => {
+const Item = ({ character, handleAddOrReoveRavorite }: Props): JSX.Element => {
   return (
     <Container>
       <Link to={`/character/${character.id}`}>
@@ -22,7 +23,10 @@ const Item = ({ character }: Props): JSX.Element => {
       <div className="character-name-and-favorite">
         <span>{character.name}</span>
 
-        <ButtonFavorite character={character} />
+        <ButtonFavorite
+          onClick={() => handleAddOrReoveRavorite(character)}
+          isFavorite={!!character.isFavorite}
+        />
       </div>
     </Container>
   );

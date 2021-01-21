@@ -1,6 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 import Item from '..';
+
+const mockAddOrRemoveFavorite = jest.fn();
 
 jest.mock('react-router-dom', () => {
   return {
@@ -23,11 +25,29 @@ describe('Characters List item', () => {
       description: 'description',
       isFavorite: false,
     },
+    handleAddOrReoveRavorite: mockAddOrRemoveFavorite,
   };
 
-  it('should be able to render character name', () => {
+  it('should be able call function', () => {
+    render(<Item {...props} />);
+    const buttonElement = screen.getByRole('button');
+
+    fireEvent.click(buttonElement);
+
+    expect(mockAddOrRemoveFavorite).toHaveBeenCalledWith(props.character);
+  });
+
+  it('should be able to render hearth border icon', () => {
+    Object.assign(props.character, { isFavorite: true });
     render(<Item {...props} />);
 
-    expect(screen.getByText('John Doe')).toBeTruthy();
+    expect(screen.getByTestId('hearth')).toBeTruthy();
+  });
+
+  it('should be able to render hearth icon', () => {
+    Object.assign(props.character, { isFavorite: false });
+    render(<Item {...props} />);
+
+    expect(screen.getByTestId('hearth-border')).toBeTruthy();
   });
 });
