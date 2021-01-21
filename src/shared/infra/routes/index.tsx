@@ -15,7 +15,7 @@ const Routes = (): JSX.Element => (
       <Suspense fallback="carregando...">
         <Route path="/" exact component={CharacterHome} />
         <Route path="/character/:id" component={CharacterDateils} />
-        <Route path="*" component={Page404} />
+        <Route path="*" exact component={Page404} />
       </Suspense>
     </Switch>
   </BrowserRouter>
