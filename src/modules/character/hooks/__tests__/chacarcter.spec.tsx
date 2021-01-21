@@ -1,12 +1,27 @@
 import { renderHook, act } from '@testing-library/react-hooks';
+import { toast } from 'react-toastify';
 
 import { useCharacter, CharacterProvider } from '../context/character';
 import {
   getCharactersService,
   getFavoritesCharactersService,
+  saveFavoriteCharacterService,
 } from '../../services/index';
 
 describe('character Hook', () => {
+  const character = {
+    id: 1,
+    name: 'John Doe',
+    thumbnail: {
+      path: 'path',
+      extension: 'jpg',
+    },
+    comics: {
+      returned: 3,
+    },
+    description: 'description',
+  };
+
   it('should able to call functiom get characters', async () => {
     jest
       .spyOn(getCharactersService, 'execute')
@@ -37,21 +52,20 @@ describe('character Hook', () => {
     });
   });
 
-  it('should able dont return data', () => {
+  it('should able return error when get remote characters', () => {
     jest
       .spyOn(getCharactersService, 'execute')
       .mockImplementationOnce((): any => {
-        return null;
+        throw new Error();
       });
+    const spyToast = jest.spyOn(toast, 'error');
     const { result } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
 
-    act(() => {
-      result.current.getCharactersOrderByName();
-    });
+    result.current.getCharactersOrderByName();
 
-    expect(result.current.characters).toEqual(null);
+    expect(spyToast).toHaveBeenCalled();
   });
 
   it('should able to call functiom get favorites characters', () => {
@@ -125,14 +139,6 @@ describe('character Hook', () => {
   });
 
   it('should able to save character in favorites', async () => {
-    const character = {
-      id: 1,
-      name: 'John Doe',
-      thumbnail: {
-        path: 'path',
-        extension: 'jpg',
-      },
-    };
     jest
       .spyOn(getCharactersService, 'execute')
       .mockImplementationOnce((): any => {
@@ -157,25 +163,12 @@ describe('character Hook', () => {
     });
 
     expect(result.current.characters?.results[0]).toEqual({
-      id: 1,
-      name: 'John Doe',
-      thumbnail: {
-        path: 'path',
-        extension: 'jpg',
-      },
+      ...character,
       isFavorite: true,
     });
   });
 
   it('should able to save character in favorites and not update characters state', async () => {
-    const character = {
-      id: 1,
-      name: 'John Doe',
-      thumbnail: {
-        path: 'path',
-        extension: 'jpg',
-      },
-    };
     jest
       .spyOn(getCharactersService, 'execute')
       .mockImplementationOnce((): any => {
@@ -202,15 +195,27 @@ describe('character Hook', () => {
     expect(result.current.characters?.results[0]).toEqual(character);
   });
 
+  it('should able to show alert', async () => {
+    jest
+      .spyOn(saveFavoriteCharacterService, 'execute')
+      .mockImplementationOnce((): any => {
+        throw new Error();
+      });
+    const spyToast = jest.spyOn(toast, 'error');
+    const { result, waitForNextUpdate } = renderHook(() => useCharacter(), {
+      wrapper: CharacterProvider,
+    });
+    act(() => {
+      result.current.getCharactersOrderByName();
+    });
+    await waitForNextUpdate();
+
+    result.current.saveFavorite({ ...character, id: 2 });
+
+    expect(spyToast).toHaveBeenCalled();
+  });
+
   it('should able to remove character of favorites wahen option is favorite', () => {
-    const character = {
-      id: 1,
-      name: 'John Doe',
-      thumbnail: {
-        path: 'path',
-        extension: 'jpg',
-      },
-    };
     jest
       .spyOn(getFavoritesCharactersService, 'execute')
       .mockImplementationOnce((): any => {
@@ -243,14 +248,6 @@ describe('character Hook', () => {
   });
 
   it('should able to remove character of favorites wahen option is orderByName', async () => {
-    const character = {
-      id: 1,
-      name: 'John Doe',
-      thumbnail: {
-        path: 'path',
-        extension: 'jpg',
-      },
-    };
     jest
       .spyOn(getCharactersService, 'execute')
       .mockImplementationOnce((): any => {
@@ -276,12 +273,7 @@ describe('character Hook', () => {
     });
 
     expect(result.current.characters?.results[0]).toEqual({
-      id: 1,
-      name: 'John Doe',
-      thumbnail: {
-        path: 'path',
-        extension: 'jpg',
-      },
+      ...character,
       isFavorite: false,
     });
   });

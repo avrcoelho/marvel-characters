@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useCallback } from 'react';
+import { toast } from 'react-toastify';
 
 import {
   CharacterDataContainerModel,
@@ -44,10 +45,11 @@ export const CharacterProvider: React.FC = ({ children }) => {
 
   const getCharactersOrderByName = useCallback(
     async (search?: string): Promise<void> => {
-      const response = await getCharactersService.execute(search);
-
-      if (response) {
+      try {
+        const response = await getCharactersService.execute(search);
         setCharacters(response);
+      } catch {
+        toast.error('Erro ao obter os personagens');
       }
     },
     [],
@@ -82,9 +84,12 @@ export const CharacterProvider: React.FC = ({ children }) => {
 
   const saveFavorite = useCallback(
     (character: CharacterModel): void => {
-      saveFavoriteCharacterService.execute(character);
-
-      updateCharacterState({ characterId: character.id, isFavorite: true });
+      try {
+        saveFavoriteCharacterService.execute(character);
+        updateCharacterState({ characterId: character.id, isFavorite: true });
+      } catch (error) {
+        toast.error(error.message);
+      }
     },
     [updateCharacterState],
   );
