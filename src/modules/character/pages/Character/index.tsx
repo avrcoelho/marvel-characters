@@ -27,23 +27,19 @@ const Character = (): JSX.Element => {
     setCharacterDetails,
   ] = useState<CharacterModel | null>(null);
   const [comics, setComics] = useState<ComicModel[]>([]);
+  const [dateOfLastComic, setDateOfLastComic] = useState<string | null>(null);
 
   const { id } = useParams<ParamsRoute>();
   const { saveFavorite, removeFavorite } = useCharacter();
 
-  const verifyIfIsFavorite = useCallback(
-    (character: CharacterModel): CharacterModel => {
-      const favorites = getFavoritesCharactersService.execute();
-      const isFavorite = favorites.results.some(
-        favorite => favorite.id === character.id,
-      );
+  const verifyIfIsFavorite = useCallback((characterId: number): boolean => {
+    const favorites = getFavoritesCharactersService.execute();
+    const isFavorite = favorites.results.some(
+      favorite => favorite.id === characterId,
+    );
 
-      Object.assign(character, { isFavorite });
-
-      return character;
-    },
-    [],
-  );
+    return isFavorite;
+  }, []);
 
   const remoteConsultAndSetInState = useCallback(
     async (characterId: string): Promise<void> => {
@@ -52,26 +48,28 @@ const Character = (): JSX.Element => {
         getCharacterComicsService.execute(characterId),
       ]);
 
-      const character = verifyIfIsFavorite(characterResult.results[0]);
+      const isFavorite = verifyIfIsFavorite(characterResult.results[0].id);
 
-      setCharacterDetails(character);
+      setCharacterDetails({ ...characterResult.results[0], isFavorite });
       setComics(comicResult.results);
+
+      const getDateOfLastComic = comicResult.results[0]?.dates.pop()?.date;
+      setDateOfLastComic(getDateOfLastComic || null);
     },
     [verifyIfIsFavorite],
   );
 
   const handleAddOrRemoveFavorite = useCallback((): void => {
     if (characterDetails?.isFavorite) {
-      removeFavorite(Number(id));
+      removeFavorite(Number(characterDetails.id));
     } else {
       saveFavorite(characterDetails as CharacterModel);
     }
 
-    const updatedCharacter = verifyIfIsFavorite(
-      characterDetails as CharacterModel,
-    );
-    setCharacterDetails(updatedCharacter);
-  }, [characterDetails, id, removeFavorite, saveFavorite, verifyIfIsFavorite]);
+    const isFavorite = verifyIfIsFavorite(characterDetails?.id as number);
+
+    setCharacterDetails(prevState => prevState && { ...prevState, isFavorite });
+  }, [characterDetails, removeFavorite, saveFavorite, verifyIfIsFavorite]);
 
   useEffect(() => {
     const getCharacterDetails = async (): Promise<void> => {
@@ -95,6 +93,7 @@ const Character = (): JSX.Element => {
               <div className="content">
                 <CharacterDetails
                   character={characterDetails}
+                  dateOfLastComic={dateOfLastComic}
                   handleAddOrRemoveFavorite={handleAddOrRemoveFavorite}
                 />
 

@@ -57,6 +57,9 @@ describe('Character page', () => {
         comics: {
           returned: 3,
         },
+        series: {
+          returned: 3,
+        },
         description: 'description',
         isFavorite: false,
       },

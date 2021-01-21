@@ -12,7 +12,7 @@ export const MainContainer = styled.main`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 6rem 2rem;
+  padding: 6rem 2rem 0;
 
   .content {
     width: 100%;
