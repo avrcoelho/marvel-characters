@@ -3,25 +3,37 @@ import { Container } from './styles';
 import { ReactComponent as Rating } from '../../../../assets/svgs/rating.svg';
 import { ReactComponent as Comic } from '../../../../assets/svgs/comic.svg';
 import { ReactComponent as Movie } from '../../../../assets/svgs/movie.svg';
+import { CharacterModel } from '../../models/Character.model';
 import ButtonFavorite from '../Buttons/Favorite';
 
-const CharacterDetails = (): JSX.Element => {
+interface Props {
+  character: CharacterModel;
+  handleAddOrReoveRavorite: () => void;
+}
+
+const CharacterDetails = ({
+  character,
+  handleAddOrReoveRavorite,
+}: Props): JSX.Element => {
   return (
     <Container>
       <div className="title-favorite">
-        <h1 className="title">Hulk</h1>
+        <h1 className="title">{character.name}</h1>
 
-        <ButtonFavorite isFavorite={false} />
+        <ButtonFavorite
+          onClick={handleAddOrReoveRavorite}
+          isFavorite={!!character.isFavorite}
+        />
       </div>
 
-      <p>jskj ksdj ksd</p>
+      <p>{character.description}</p>
 
       <div className="amount-comic-movie">
         <dl>
           <dt>Quadrinhos</dt>
           <dd>
             <Comic />
-            3.000
+            {character.comics.returned}
           </dd>
         </dl>
         <dl>
