@@ -11,13 +11,13 @@ const Page404 = lazy(() => import('../../pages/404'));
 
 const Routes = (): JSX.Element => (
   <BrowserRouter>
-    <Switch>
-      <Suspense fallback="carregando...">
+    <Suspense fallback="carregando...">
+      <Switch>
         <Route path="/" exact component={CharacterHome} />
-        <Route path="/character/:id" component={CharacterDateils} />
-        <Route path="*" exact component={Page404} />
-      </Suspense>
-    </Switch>
+        <Route path="/character/:id" exact component={CharacterDateils} />
+        <Route component={Page404} />
+      </Switch>
+    </Suspense>
   </BrowserRouter>
 );
 
