@@ -19,6 +19,9 @@ describe('character Hook', () => {
     comics: {
       returned: 3,
     },
+    series: {
+      returned: 3,
+    },
     description: 'description',
   };
 
