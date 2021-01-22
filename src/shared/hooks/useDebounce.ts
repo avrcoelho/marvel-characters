@@ -3,7 +3,7 @@ import { useCallback, useRef } from 'react';
 type Hook = (
   delay: number,
 ) => {
-  handleDebounce(func: any): void;
+  handleDebounce(func: () => void): void;
 };
 
 export const useDebounce: Hook = (delay: number) => {
