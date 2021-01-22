@@ -11,6 +11,10 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
 
+  svg {
+    flex-shrink: 0;  
+  }
+
   input {
     height: 100%;
     flex: 1;
