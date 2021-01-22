@@ -143,7 +143,7 @@ describe('character Hook', () => {
     expect(getFavoritesCharactersServiceSpy).toHaveBeenCalledWith('john');
   });
 
-  it('should able to save character in favorites', async () => {
+  it('should able to save character in favorites when option is orderByName', async () => {
     jest
       .spyOn(getCharactersService, 'execute')
       .mockImplementationOnce((): any => {
@@ -162,6 +162,36 @@ describe('character Hook', () => {
       result.current.getCharactersOrderByName();
     });
     await waitForNextUpdate();
+
+    act(() => {
+      result.current.saveFavorite(character);
+    });
+
+    expect(result.current.characters?.results[0]).toEqual({
+      ...character,
+      isFavorite: true,
+    });
+  });
+
+  it('should able to save character in favorites when option is favorite', async () => {
+    jest
+      .spyOn(getCharactersService, 'execute')
+      .mockImplementationOnce((): any => {
+        return {
+          offset: 0,
+          limit: 20,
+          total: 1493,
+          count: 20,
+          results: [character],
+        };
+      });
+    const { result } = renderHook(() => useCharacter(), {
+      wrapper: CharacterProvider,
+    });
+    act(() => {
+      result.current.setOption('favorites');
+      result.current.getFavoriteCharacters();
+    });
 
     act(() => {
       result.current.saveFavorite(character);

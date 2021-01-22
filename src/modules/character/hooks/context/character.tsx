@@ -90,28 +90,31 @@ export const CharacterProvider: React.FC = ({ children }) => {
   const saveFavorite = useCallback(
     (character: CharacterModel): void => {
       try {
-        saveFavoriteCharacterService.execute(character);
-        updateCharacterState({ characterId: character.id, isFavorite: true });
+        const favorites = saveFavoriteCharacterService.execute(character);
+
+        if (option === 'favorites') {
+          setCharacters(favorites as CharacterDataContainerModel);
+        } else {
+          updateCharacterState({ characterId: character.id, isFavorite: true });
+        }
       } catch (error) {
         toast.error(error.message);
       }
     },
-    [updateCharacterState],
+    [option, updateCharacterState],
   );
 
   const removeFavorite = useCallback(
     (characterId: number): void => {
-      removeFavoriteCharacterService.execute(characterId);
+      const favorites = removeFavoriteCharacterService.execute(characterId);
 
       if (option === 'favorites') {
-        getFavoriteCharacters();
-
-        return;
+        setCharacters(favorites as CharacterDataContainerModel);
+      } else {
+        updateCharacterState({ characterId, isFavorite: false });
       }
-
-      updateCharacterState({ characterId, isFavorite: false });
     },
-    [getFavoriteCharacters, option, updateCharacterState],
+    [option, updateCharacterState],
   );
 
   return (
