@@ -12,7 +12,7 @@ export const Container = styled.div`
   align-items: center;
 
   svg {
-    flex-shrink: 0;  
+    flex-shrink: 0;
   }
 
   input {
