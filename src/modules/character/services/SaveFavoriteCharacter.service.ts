@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 import ICache from '../../../shared/infra/cache/models/ICache';
 import { CharacterModel } from '../models/Character.model';
 import FavoriteCharacterModel from '../models/FavoriteCharacter.model';

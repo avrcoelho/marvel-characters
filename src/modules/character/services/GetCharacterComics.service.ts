@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 import IHttpClientModel from '../../../shared/infra/http/axios-http-client/models/IHttpClient.model';
 import generateApiCredentials from '../../../shared/utils/generateApiCredentials';
 import {
