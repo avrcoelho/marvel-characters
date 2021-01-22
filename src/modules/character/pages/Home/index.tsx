@@ -9,7 +9,7 @@ import { useCharacter } from '../../hooks/context/character';
 import { Container } from './styles';
 
 const Home = (): JSX.Element => {
-  const { getCharactersOrderByName, searchValue, option } = useCharacter();
+  const { getCharactersOrderByName, option } = useCharacter();
   const isInitial = useRef(true);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Home = (): JSX.Element => {
       isInitial.current = false;
       getCharactersOrderByName();
     }
-  }, [getCharactersOrderByName, option, searchValue]);
+  }, [getCharactersOrderByName, option]);
 
   return (
     <>
