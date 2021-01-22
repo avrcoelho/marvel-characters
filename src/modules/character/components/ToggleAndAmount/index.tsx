@@ -16,10 +16,11 @@ const ToggleAndAmount = (): JSX.Element => {
     searchValue,
     getCharactersOrderByName,
     getFavoriteCharacters,
+    isLoading,
   } = useCharacter();
 
   const getCharacters = useCallback(
-    (optionSelected: 'orderByName' | 'favorites') => {
+    async (optionSelected: 'orderByName' | 'favorites') => {
       if (optionSelected === 'orderByName') {
         getCharactersOrderByName(searchValue);
       } else {
@@ -48,7 +49,7 @@ const ToggleAndAmount = (): JSX.Element => {
           <span className="hidden-mobile">Ordenar por nome - </span> A/Z
         </div>
 
-        <button type="button" onClick={handleToggleOption}>
+        <button type="button" onClick={handleToggleOption} disabled={isLoading}>
           {option === 'orderByName' ? (
             <ToggleLeft data-testid="icon-left" />
           ) : (
