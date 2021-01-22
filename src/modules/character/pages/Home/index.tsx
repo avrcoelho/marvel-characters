@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import Header from '../../components/Headers/Home';
 import ListCharacters from '../../components/Lists/Characters';
@@ -10,9 +10,11 @@ import { Container } from './styles';
 
 const Home = (): JSX.Element => {
   const { getCharactersOrderByName, searchValue, option } = useCharacter();
+  const isInitial = useRef(true);
 
   useEffect(() => {
-    if (typeof searchValue === 'undefined' && option === 'orderByName') {
+    if (isInitial.current && option === 'orderByName') {
+      isInitial.current = false;
       getCharactersOrderByName();
     }
   }, [getCharactersOrderByName, option, searchValue]);
