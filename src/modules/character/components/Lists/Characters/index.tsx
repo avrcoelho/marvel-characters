@@ -13,11 +13,9 @@ const Characters = (): JSX.Element => {
     (character: CharacterModel): void => {
       if (character.isFavorite) {
         removeFavorite(character.id);
-
-        return;
+      } else {
+        saveFavorite(character);
       }
-
-      saveFavorite(character);
     },
     [removeFavorite, saveFavorite],
   );
