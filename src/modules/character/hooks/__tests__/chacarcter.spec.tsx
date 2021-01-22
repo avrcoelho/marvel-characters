@@ -8,6 +8,12 @@ import {
   saveFavoriteCharacterService,
 } from '../../services/index';
 
+const spyGetCharactersService = jest.spyOn(getCharactersService, 'execute');
+const spyGetFavoritesCharactersService = jest.spyOn(
+  getFavoritesCharactersService,
+  'execute',
+);
+
 describe('character Hook', () => {
   const character = {
     id: 1,
@@ -26,17 +32,15 @@ describe('character Hook', () => {
   };
 
   it('should able to call functiom get characters', async () => {
-    jest
-      .spyOn(getCharactersService, 'execute')
-      .mockImplementationOnce((): any => {
-        return {
-          offset: 0,
-          limit: 20,
-          total: 1493,
-          count: 20,
-          results: [],
-        };
-      });
+    spyGetCharactersService.mockImplementationOnce((): any => {
+      return {
+        offset: 0,
+        limit: 20,
+        total: 1493,
+        count: 20,
+        results: [],
+      };
+    });
     const { result, waitForNextUpdate } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
@@ -56,11 +60,9 @@ describe('character Hook', () => {
   });
 
   it('should able return error when get remote characters', () => {
-    jest
-      .spyOn(getCharactersService, 'execute')
-      .mockImplementationOnce((): any => {
-        throw new Error();
-      });
+    spyGetCharactersService.mockImplementationOnce((): any => {
+      throw new Error();
+    });
     const spyToast = jest.spyOn(toast, 'error');
     const { result } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
@@ -74,14 +76,12 @@ describe('character Hook', () => {
   });
 
   it('should able to call functiom get favorites characters', () => {
-    jest
-      .spyOn(getFavoritesCharactersService, 'execute')
-      .mockImplementationOnce((): any => {
-        return {
-          count: 20,
-          results: [],
-        };
-      });
+    spyGetFavoritesCharactersService.mockImplementationOnce((): any => {
+      return {
+        count: 20,
+        results: [],
+      };
+    });
     const { result } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
@@ -251,22 +251,18 @@ describe('character Hook', () => {
   });
 
   it('should able to remove character of favorites wahen option is favorite', () => {
-    jest
-      .spyOn(getFavoritesCharactersService, 'execute')
-      .mockImplementationOnce((): any => {
-        return {
-          count: 1,
-          results: [character],
-        };
-      });
-    const spyGetFavoritesCharactersService = jest
-      .spyOn(getFavoritesCharactersService, 'execute')
-      .mockImplementationOnce((): any => {
-        return {
-          count: 20,
-          results: [],
-        };
-      });
+    spyGetCharactersService.mockImplementationOnce((): any => {
+      return {
+        count: 1,
+        results: [character],
+      };
+    });
+    spyGetFavoritesCharactersService.mockImplementationOnce((): any => {
+      return {
+        count: 20,
+        results: [],
+      };
+    });
     const { result } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
@@ -283,17 +279,15 @@ describe('character Hook', () => {
   });
 
   it('should able to remove character of favorites wahen option is orderByName', async () => {
-    jest
-      .spyOn(getCharactersService, 'execute')
-      .mockImplementationOnce((): any => {
-        return {
-          offset: 0,
-          limit: 20,
-          total: 1493,
-          count: 20,
-          results: [character],
-        };
-      });
+    spyGetCharactersService.mockImplementationOnce((): any => {
+      return {
+        offset: 0,
+        limit: 20,
+        total: 1493,
+        count: 20,
+        results: [character],
+      };
+    });
     const { result, waitForNextUpdate } = renderHook(() => useCharacter(), {
       wrapper: CharacterProvider,
     });
