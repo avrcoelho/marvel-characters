@@ -24,6 +24,7 @@ interface CharacterContextData {
   setSearchValue(value: string): void;
   option: IOptionType;
   searchValue: string | undefined;
+  isLoading: boolean;
 }
 
 interface UpdateCharacterStateParams {
@@ -42,14 +43,18 @@ export const CharacterProvider: React.FC = ({ children }) => {
   ] = useState<CharacterDataContainerModel | null>(null);
   const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
   const [option, setOption] = useState<IOptionType>('orderByName');
+  const [isLoading, setIsLoading] = useState(false);
 
   const getCharactersOrderByName = useCallback(
     async (search?: string): Promise<void> => {
       try {
+        setIsLoading(true);
         const response = await getCharactersService.execute(search);
         setCharacters(response);
       } catch {
         toast.error('Erro ao obter os personagens');
+      } finally {
+        setIsLoading(false);
       }
     },
     [],
@@ -121,6 +126,7 @@ export const CharacterProvider: React.FC = ({ children }) => {
         getFavoriteCharacters,
         setOption,
         setSearchValue,
+        isLoading,
       }}
     >
       {children}

@@ -66,7 +66,9 @@ describe('character Hook', () => {
       wrapper: CharacterProvider,
     });
 
-    result.current.getCharactersOrderByName();
+    act(() => {
+      result.current.getCharactersOrderByName();
+    });
 
     expect(spyToast).toHaveBeenCalled();
   });
