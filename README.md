@@ -6,11 +6,11 @@
 
 ## Sobre
 
-Aplicação desenvolvida com o intuito de realizar a consulta dos persogens da Marvel. Utilizando a API da Marvel ([https://developer.marvel.com/docs](https://developer.marvel.com/docs))
+Aplicação desenvolvida com o intuito de realizar a consulta dos persogens da Marvel. Utilizando a API ([https://developer.marvel.com/docs](https://developer.marvel.com/docs))
 
 ## Demonstração
 
-[https://trusting-wright-c109c5.netlify.app/](https://trusting-wright-c109c5.netlify.app/)
+[https://marvel-characters-gilt.vercel.app](https://marvel-characters-gilt.vercel.app)
 
 ## Tecnologias utilizadas
 
@@ -29,65 +29,77 @@ Tenha instalado em sua maquina o [Git](http://git-scm.com/) e [Node.js](http://n
 
 2. Depois de obter sua cópia local, acesse a pasta da aplicação e instale suas dependências:
 
-sh
+```sh
 npm install
+```
 
 ou
 
-sh
+```sh
 yarn
+```
 
-4. Acessa a API da Marvel [https://developer.marvel.com/docs](https://developer.marvel.com/docs) e crie uma conta para obter sua `private key` e `public key`
+3. Acessa a API da Marvel [https://developer.marvel.com/docs](https://developer.marvel.com/docs) e crie uma conta para obter sua `private key` e `public key`
 
-5. Crie o arquivo `.env.development` e `env.production`, com as variáveis e seus valores. Siga o exemplo `.env.example`
+4. Crie o arquivo `.env.development` e `env.production`, com as variáveis e seus valores. Siga o exemplo `.env.example`
 
-6. Para iniciar a aplicação em desenvolvimento, execute o comando abaixo:
+5. Para iniciar a aplicação em desenvolvimento, execute o comando abaixo:
 
-sh
+```sh
 npm start
+```
 
 ou
 
-sh
+```sh
 yarn start
+```
 
 ## Testes
 
 Todos os arquivos de testes terminam com `.spec.tsx` ou `.spec.ts`
 
-### Unitarios
+### Unitários
 
 Acesse o diretório da aplicação e use comando abaixo para executar os testes:
 
-sh
+```sh
 npm test
+```
 
 ou
 
-sh
+```sh
 npm run test:cov
+```
 
 ou
 
-sh
+```sh
 yarn test
+```
 
 ou
 
-sh
+```sh
 yarn test:cov
+```
 
 ### E2E
 
 Acesse o diretório da aplicação e use comando abaixo para executar os testes:
 
-sh
+```sh
+npm start
 npm run cypress
+```
 
 ou
 
-sh
+```sh
+yarn start
 yarn cypress
+```
 
 ## Licença
 
