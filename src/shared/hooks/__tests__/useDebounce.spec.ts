@@ -16,7 +16,7 @@ describe('debounce Hook', () => {
   it('should able to return value', () => {
     const { result } = renderHook(() => useDebounce(500));
 
-    result.current.handleDebounce(mockFunc);
+    result.current(mockFunc);
     jest.advanceTimersByTime(500);
     runInterval();
 

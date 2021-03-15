@@ -1,12 +1,6 @@
 import { useCallback, useRef } from 'react';
 
-type Hook = (
-  delay: number,
-) => {
-  handleDebounce(func: () => void): void;
-};
-
-export const useDebounce: Hook = (delay: number) => {
+export const useDebounce = (delay: number): ((func: any) => void) => {
   const timer = useRef<any>(null);
 
   const handleDebounce = useCallback(
@@ -20,5 +14,5 @@ export const useDebounce: Hook = (delay: number) => {
     [delay],
   );
 
-  return { handleDebounce };
+  return handleDebounce;
 };

@@ -14,7 +14,7 @@ const Search = (): JSX.Element => {
     setSearchValue,
     option,
   } = useCharacter();
-  const { handleDebounce } = useDebounce(500);
+  const handleDebounce = useDebounce(500);
 
   const getCharacters = useCallback(
     async (search: string): Promise<void> => {
